@@ -48,7 +48,7 @@ class PokemonSeeder extends Seeder
             // On ajoute le pokemon à la datatable
                DB::table('pokemon')->insert([
                  'id' => $PokemonInfo['id'],
-                 'id_energy' => $PokemonInfo[''],
+                 'id_energy' => $idEnergy,
                  'name' => $PokemonInfo['name'],
                  'pv_max' => $PokemonInfo['stats'][0]['base_stat'],
                  'level' => $PokemonInfo['base_experience'],

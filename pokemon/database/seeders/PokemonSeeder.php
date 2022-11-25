@@ -25,7 +25,7 @@ class PokemonSeeder extends Seeder
 
         function GetPokemon(){
             $pokemonTab = array();
-            $json = file_get_contents('https://pokeapi.co/api/v2/pokemon?limit=10&offset=0');
+            $json = file_get_contents('https://pokeapi.co/api/v2/pokemon?limit=100&offset=0');
             $pokemonTab = json_decode($json,true);
             return $pokemonTab=$pokemonTab['results'];
         }

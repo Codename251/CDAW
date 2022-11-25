@@ -24,6 +24,10 @@
 //         return $title;
     
 // })->where('title', '[A-Za-z]+');
+Route::get('/', function(){
+    return view('layout');
+});
+
 
 
 Route::get('/htmlTest', function () {

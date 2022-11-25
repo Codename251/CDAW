@@ -34,10 +34,21 @@ class PokemonSeeder extends Seeder
         foreach($pokemonTab as $pokemon){
             $getJsonPokemonInfo = file_get_contents($pokemon['url']);
             $PokemonInfo = json_decode($getJsonPokemonInfo, true);
-            //Etape 1
+
+            // On récupère l'id de l'énergie du pokemon par l'url de l'énergie
+            $urlEnergy = $PokemonInfo['types'][0]['type']['url'];
+            if(substr($urlEnergy, -3, 1) == '/'){
+                $idEnergy = substr($urlEnergy, -2, 1);
+            }else if(substr($urlEnergy, -3, 1) == '0'){
+                $idEnergy = substr($urlEnergy, -6, 5);
+            }else{
+                $idEnergy = substr($urlEnergy, -3, 2);
+            }
+
+            // On ajoute le pokemon à la datatable
                DB::table('pokemon')->insert([
                  'id' => $PokemonInfo['id'],
-                 'id_energy' => 1,
+                 'id_energy' => $PokemonInfo[''],
                  'name' => $PokemonInfo['name'],
                  'pv_max' => $PokemonInfo['stats'][0]['base_stat'],
                  'level' => $PokemonInfo['base_experience'],

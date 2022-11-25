@@ -1,0 +1,1 @@
+Le template Bootstrap à été appliqué au projet laravel directement

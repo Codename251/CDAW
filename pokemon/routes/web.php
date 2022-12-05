@@ -8,6 +8,7 @@ Route::get('/statistiquesJoueurs', 'App\Http\Controllers\statistiquesJoueursCont
 Route::get('/statistiquesMatchs', 'App\Http\Controllers\statistiquesMatchsController@getStatistiquesMatchs');
 Route::get('/fight', 'App\Http\Controllers\fightController@startFight');
 
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),

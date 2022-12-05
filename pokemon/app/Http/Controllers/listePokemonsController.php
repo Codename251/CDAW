@@ -9,7 +9,6 @@ class listePokemonsController extends Controller
 {
     //
 
-
     public function getListePokemons(){
         //appel du model
         $Pokemons = Pokemon::getPokemons();

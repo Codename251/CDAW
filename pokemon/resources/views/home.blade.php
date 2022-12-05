@@ -80,12 +80,14 @@
                     </div>
                     <!-- Portfolio Item 5-->
                     <div class="col-md-6 col-lg-4 mb-5 mb-md-0">
+                        <a href= "/fight">
                         <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal5">
                             <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
                                 <div class="portfolio-item-caption-content text-center text-white"><h3>Combat : Choix aléatoire / Automatique</h3></div>
                             </div>
                             <img class="img-fluid" src="assets/img/portfolio/des.png" alt="..." />
                         </div>
+                        </a>
                     </div>
                     <!-- Portfolio Item 6-->
                     <div class="col-md-6 col-lg-4">

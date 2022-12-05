@@ -31,7 +31,23 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#portfolio">Menu</a></li>
+                        <?php
+
+                            $url = $_SERVER['REQUEST_URI'];
+                            if($url == '/'){
+                                ?>
+                                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#portfolio">Menu</a></li>
+                                <?php
+                            }
+                            else{
+
+                                ?>
+                                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/">Menu</a></li>
+                                <?php
+                            }
+        
+                        ?>
+                        
                         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#connexion">Se connecter</a></li>
                         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#inscription">S'incrire</a></li>
                     </ul>

@@ -142,6 +142,7 @@ strong {
   position: initial;
   transtion: opacity 0.3s ease;
   text-transform: capitalize;
+  list-style: none;
 }
 .attack-list.disabled {
   opacity: 0.5;

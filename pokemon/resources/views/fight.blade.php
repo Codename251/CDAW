@@ -1,14 +1,13 @@
 @extends('template')
 
 @section('style')
-
-     
-    
-        <link href="css/fight.css" rel="stylesheet" />
-        <link href="css/styles.css" rel="stylesheet" />
+        <link href="{{asset('css/fight.css')}}" rel="stylesheet" />
+        <link href="{{asset('css/styles.css')}}" rel="stylesheet" />
 @endsection
 
 @section('content')
+
+    <input type=hidden id=variableAPasser value=<?php echo $fightMode; ?>/>
     <div class="content">
     <header>
     <img class="logo" title="Reset Game" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/International_Pok%C3%A9mon_logo.svg/2000px-International_Pok%C3%A9mon_logo.svg.png" alt="Pokemon">
@@ -47,6 +46,10 @@
 @endsection
 
 @section('script')
-    <script src="js/script.js"></script>
-    <script src="js/fight.js"></script>
+
+    
+    <script src="{{asset('js/script.js')}}"></script>
+    <script src="{{asset('js/fight.js')}}"></script>
+
+    
 @endsection

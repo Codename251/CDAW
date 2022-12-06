@@ -6,7 +6,7 @@ Route::get('/', 'App\Http\Controllers\homeController@getHomePage');
 Route::get('/listePokemons', 'App\Http\Controllers\listePokemonsController@getListePokemons');
 Route::get('/statistiquesJoueurs', 'App\Http\Controllers\statistiquesJoueursController@getStatistiquesJoueurs');
 Route::get('/statistiquesMatchs', 'App\Http\Controllers\statistiquesMatchsController@getStatistiquesMatchs');
-Route::get('/fight', 'App\Http\Controllers\fightController@startFight');
+Route::get('/fight/{fightMode}', 'App\Http\Controllers\fightController@startFight');
 
 
 Route::middleware([

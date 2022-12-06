@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 class fightController extends Controller
 {
     //
-    public function startFight(){
+    public function startFight($fightMode){
         //appel du model
         
         //appel de la vue avec liste pokemon
-        return view('fight');
+        return view('fight', ['fightMode' => $fightMode]);
     }
 }

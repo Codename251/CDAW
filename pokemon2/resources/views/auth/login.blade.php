@@ -1,7 +1,10 @@
+@extends('template')
+
+@section('content')
 <x-guest-layout>
     <x-jet-authentication-card>
         <x-slot name="logo">
-            <x-jet-authentication-card-logo />
+            <img class="masthead-avatar w-25 mb-5" src="assets/img/pokeball.png"/>
         </x-slot>
 
         <x-jet-validation-errors class="mb-4" />
@@ -46,3 +49,4 @@
         </form>
     </x-jet-authentication-card>
 </x-guest-layout>
+@endsection

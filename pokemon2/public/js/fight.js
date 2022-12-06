@@ -19,6 +19,14 @@
 /////////////////////////////////////////////
 // VARIABLES
 /////////////////////////////////////////////
+
+window.addEventListener('load', function () {
+  var variableRecuperee = document.getElementById('variableAPasser').value;
+  console.log(variableRecuperee);
+});
+
+
+
 var music = {},
     typeSprite = '',
     types = [],

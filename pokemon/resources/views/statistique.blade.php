@@ -25,10 +25,12 @@
             <tbody>
                 <tr>
                     @foreach ($Joueurs as $joueur)
-                        <td> {{$joueur->id}}</td>
                         <td> {{$joueur->name}}</td>
-                        <td><img src= "{{$joueur->path}}"></td>
-                        <td> {{$joueur->energy->name}}</td></tr>
+                        <td> {{$joueur->level}}</td>
+                        <td>{{$joueur->id}}</td>
+                        <td>{{$joueur->id}}</td>
+                        <td>{{$joueur->id}}</td>
+                        <td> {{$joueur->email}}</td></tr>
                     @endforeach 
             </tbody>
         </table>

@@ -14,7 +14,7 @@
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
         <link href="{{asset('css/content.css')}}" rel="stylesheet" />
-        <script src="js/script.js"></script>
+        <script src="{{asset('js/script.js')}}"></script>
         
         @yield('style')
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

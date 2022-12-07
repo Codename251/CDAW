@@ -22,6 +22,7 @@
             
             <tbody>
                 <tr>
+                   
                     @foreach ($Pokemons as $pokemon)
                         <td> {{$pokemon->id}}</td>
                         <td> {{$pokemon->name}}</td>

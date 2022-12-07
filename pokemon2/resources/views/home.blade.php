@@ -78,8 +78,9 @@
                             </div>
                             <img class="img-fluid" src="assets/img/portfolio/game.png" alt="..." />
                         </div>
+                        </a>
                     </div>
-                    </a>
+                    
                     <!-- Portfolio Item 5-->
                     <div class="col-md-6 col-lg-4 mb-5 mb-md-0">
                         <a href= "/fight/RandomAuto">

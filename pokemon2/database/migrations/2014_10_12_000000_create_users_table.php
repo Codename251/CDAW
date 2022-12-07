@@ -17,6 +17,10 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->integer('level')->default(0);
+            $table->integer('victoire')->default(0);
+            $table->integer('matchsJoués')->default(0);
+            $table->integer('score')->default(0);
+            $table->foreignId('energy')->default(0);
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

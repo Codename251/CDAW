@@ -1,3 +1,6 @@
+@extends('template')
+
+@section('content')
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -22,7 +25,7 @@
     <body class="font-sans antialiased">
         <x-jet-banner />
 
-        <div class="min-h-screen bg-gray-100" style="padding-top: 6rem">
+        <div class="min-h-screen bg-gray-100" style="padding-top: calc(6rem + 1px)">
             @livewire('navigation-menu')
 
             <!-- Page Heading -->
@@ -45,3 +48,4 @@
         @livewireScripts
     </body>
 </html>
+@endsection

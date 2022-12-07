@@ -59,8 +59,5 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-
-    public static function getUsers(){
-        return self::all();
-    }
+    
 }

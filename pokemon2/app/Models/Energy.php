@@ -10,4 +10,9 @@ class Energy extends Model
     use HasFactory;
 
     protected $table = 'energy';
+
+    public function user()
+    { 
+        return $this->belongsTo(User::class); 
+    }
 }

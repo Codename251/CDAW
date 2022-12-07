@@ -21,8 +21,11 @@
 /////////////////////////////////////////////
 
 window.addEventListener('load', function () {
-  var variableRecuperee = document.getElementById('variableAPasser').value;
-  console.log(variableRecuperee);
+  fightMode = document.getElementById('fightMode').value;
+  console.log(fightMode);
+  PokemonList = document.getElementById('Pokemons').value;
+  PokemonList = PokemonList.substring(0, PokemonList.length - 1);
+  //PokemonList = JSON.parse(PokemonList);
 });
 
 
@@ -319,6 +322,8 @@ function buildVars(){
       ]
     }
   ];
+
+  characters = PokemonList;
 }
 
 

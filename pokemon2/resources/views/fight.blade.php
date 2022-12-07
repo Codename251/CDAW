@@ -10,7 +10,8 @@
 
 @section('content')
 
-	<input type=hidden id=variableAPasser value=<?php echo $fightMode; ?>/>
+	<input type=hidden id=fightMode value=<?php echo $fightMode; ?>/>
+  <input type=hidden id=Pokemons value=<?php echo json_encode($Pokemons); ?>/>
     <div class="content">
     <header>
     <img class="logo" title="Reset Game" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/International_Pok%C3%A9mon_logo.svg/2000px-International_Pok%C3%A9mon_logo.svg.png" alt="Pokemon">

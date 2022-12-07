@@ -31,7 +31,7 @@
                         <td>{{$joueur->victoire}}</td>
                         <td>{{$joueur->matchsJoués}}</td>
                         <td>{{$joueur->score}}</td>
-                        <td>{{$joueur->energy}}</td>
+                        <td>{{$joueur->energies->name}}</td>
 
                     @endforeach 
             </tbody>

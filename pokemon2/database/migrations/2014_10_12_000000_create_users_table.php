@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Nette\Utils\Random;
 
 return new class extends Migration
 {
@@ -20,7 +21,8 @@ return new class extends Migration
             $table->integer('victoire')->default(0);
             $table->integer('matchsJoués')->default(0);
             $table->integer('score')->default(0);
-            $table->foreignId('energy')->default(0);
+            $table->integer('energies')->default(1);
+            $table->foreign('energies')->references('id')->on('energy');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

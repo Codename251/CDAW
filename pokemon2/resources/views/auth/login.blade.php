@@ -4,10 +4,10 @@
 <x-guest-layout>
     <x-jet-authentication-card>
         <x-slot name="logo">
-            <img class="masthead-avatar w-25 mb-5" src="assets/img/pokeball.png"/>
+            <x-jet-authentication-card-logo />
         </x-slot>
 
-        <x-jet-validation-errors class="mb-4" />
+        <x-jet-validation-errors class="mb-4" />    
 
         @if (session('status'))
             <div class="mb-4 font-medium text-sm text-green-600">

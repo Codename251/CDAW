@@ -10,8 +10,8 @@ class statistiquesJoueursController extends Controller
     //
     public function getStatistiquesJoueurs(){
         //appel du model
-        $Joueurs = User::all();
-        // $Joueurs = [];
+        $Joueurs = User::getUserEnergies();
+       
         //appel de la vue avec liste pokemon
         return view('statistique', ['Joueurs' => $Joueurs]);
     }

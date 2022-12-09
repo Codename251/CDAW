@@ -11,8 +11,10 @@ class Energy extends Model
 
     protected $table = 'energy';
 
-    public function user()
+    public function users()
     { 
-        return $this->belongsTo(User::class); 
+        return $this->belongsToMany(User::class);
     }
+
+
 }

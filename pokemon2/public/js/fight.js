@@ -19,19 +19,20 @@
 /////////////////////////////////////////////
 // VARIABLES
 /////////////////////////////////////////////
-
+var PokemonList = "test";
 window.addEventListener('load', function () {
   fightMode = document.getElementById('fightMode').value;
   console.log(fightMode);
   PokemonList = document.getElementById('Pokemons').value;
   PokemonList = PokemonList.substring(0, PokemonList.length - 1);
-  //PokemonList = JSON.parse(PokemonList);
+  PokemonList = JSON.parse(PokemonList);
+  console.log(PokemonList);
+  
 });
 
 
 
-var music = {},
-    typeSprite = '',
+var typeSprite = '',
     types = [],
     gameData = {}
     attackName = '',
@@ -323,7 +324,8 @@ function buildVars(){
     }
   ];
 
-  characters = PokemonList;
+  //characters = [PokemonList];
+
 }
 
 
@@ -390,29 +392,6 @@ function attackMultiplier(attacker, curAttack){
 }
 
 
-
-// SFX PLAYER
-// stops music and plays sfx
-function playSound(name){
-  // load sfx src
-  $('audio.sfx').attr('src', music[name])
-  // pause game music
-  $('audio.music')[0].pause();
-  // character announce yourself
-  $('audio.sfx')[0].play();
-
-  // timeout to stop music at given point
-  setTimeout(function(){
-    // pause the sfx
-    $('audio.sfx')[0].pause();
-    // start the music again
-    $('audio.music')[0].play();
-    // reset the sfx
-    $('audio.sfx')[0].currentTime = 0;
-  },2000);
-}
-
-
 // HP BAR ANIMATION
 // stop and set health bar
 function setHP(){
@@ -422,9 +401,6 @@ function setHP(){
   $('.stadium .enemy progress').val(gameData.enemy.hp.current);
   $('.stadium .hero progress').val(gameData.hero.hp.current);
 }
-
-
-
 
 
 /////////////////////////////////////////////
@@ -444,23 +420,20 @@ function resetGame(){
   $('.stadium .enemy').css({'padding':'0'});
   $('.instructions p').text('Choose your hero');
 
-  // set & start the opening game music
-  $('audio.music').attr('src',music["opening"]);
-  $('audio.music')[0].play();
-
   // empty characters
   $('.characters').empty();
   $('.characters').removeClass('hidden');
 
   for(var i in characters){
+    console.log(i);
+    console.log(PokemonList);
     // build the character list
-    $(".characters").append('<div class="char-container"><img src="'+characters[i].img.default+'" alt="'+characters[i].name+'"><h2>'+characters[i].name+'</h2><span class="type '+characters[i].type+'"></span></div>')
+    $(".characters").append('<div class="char-container"><img src="'+characters[i].img.default+'" alt="'+ PokemonList[i].name +'"><h2>'+characters[i].name+'</h2><span class="type '+characters[i].type+'"></span></div>')
   }
   characterChoice();
 }
 resetGame();
 $('.logo').click(function(){resetGame();});
-
 
 
 
@@ -504,9 +477,6 @@ function characterChoice(){
         // set health bar value
         $('.stadium .hero progress').val(gameData.hero.hp.current);
 
-        // let your hero roar
-        playSound(name);
-
         // move on to choosing an enemy
         gameData.step = 2;
         break;
@@ -538,8 +508,7 @@ function characterChoice(){
         // update enemy health bar value
         $('.stadium .enemy progress').val(gameData.enemy.hp.current);
 
-        // the enemy whimpers in fear
-        playSound(name);
+       
 
         // update step to attack phase and bind click events
         gameData.step = 3;
@@ -769,11 +738,6 @@ function attackList(){
     }
   });
 
-  setTimeout(function(){
-    // characters chosen - set & start the battle music
-    $('audio.music').attr('src',music["battle"]);
-    $('audio.music')[0].play();
-  },1500);
 }
 
 

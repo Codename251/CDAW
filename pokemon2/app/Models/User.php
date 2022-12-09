@@ -61,7 +61,15 @@ class User extends Authenticatable
 
     public function energies() 
     { 
-        return $this->hasMany(Energy::class); 
+        return $this->belongsToMany(Energy::class, 'userenergies', 'user_id', 'energy_id'); 
+    }
+
+    public static function getUsers(){
+        return self::all();
+    }
+
+    public static function getUserEnergies(){
+        return self::with('energies')->orderBy('name')->get();
     }
 
     

@@ -21,8 +21,6 @@ return new class extends Migration
             $table->integer('victoire')->default(0);
             $table->integer('matchsJoués')->default(0);
             $table->integer('score')->default(0);
-            $table->integer('energies')->default(1);
-            $table->foreign('energies')->references('id')->on('energy');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

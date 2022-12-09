@@ -71,6 +71,4 @@ Pour initialiser le projet :
 -composer update
 -cp .env.example .env
 -php artisan migrate
--php artisan db:seed --class=EnergySeeder
--php artisan db:seed --class=PokemonSeeder
--php artisan db:seed --class=MatchSeeder
+-php artisan db:seed

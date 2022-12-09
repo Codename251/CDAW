@@ -19,17 +19,15 @@
 /////////////////////////////////////////////
 // VARIABLES
 /////////////////////////////////////////////
-var PokemonList = "test";
+
+
 window.addEventListener('load', function () {
   fightMode = document.getElementById('fightMode').value;
-  console.log(fightMode);
   PokemonList = document.getElementById('Pokemons').value;
   PokemonList = PokemonList.substring(0, PokemonList.length - 1);
   PokemonList = JSON.parse(PokemonList);
-  console.log(PokemonList);
-  
-});
 
+  console.log(PokemonList);
 
 
 var typeSprite = '',
@@ -70,6 +68,48 @@ function buildVars(){
   defendProgressComplete = 0;
   progressInt = null;
   progressComplete = 0;
+
+
+  for(var i in PokemonList){
+    PokemonList[i].hp = PokemonList[i].pv_max;
+    PokemonList[i].attacks = [
+      {
+        name: "thunder jolt",
+        hp: randomNum(40,20),
+        avail: {
+          total: 30,
+          remaining: 30
+        }
+      },
+      {
+        name: "electro ball",
+        hp: randomNum(60,45),
+        avail: {
+          total: 10,
+          remaining: 10
+        }
+      },
+      {
+        name: "volt tackle",
+        hp: randomNum(75,60),
+        avail: {
+          total: 5,
+          remaining: 5
+        }
+      },
+      {
+        name: "thunder crack",
+        hp: randomNum(160, 130),
+        avail: {
+          total: 2,
+          remaining: 2
+        }
+      }
+    ];
+
+    PokemonList[i].weakness =  ['fighting'];
+    PokemonList[i].resistance = ['steel'];
+  }
 
 
 
@@ -324,7 +364,7 @@ function buildVars(){
     }
   ];
 
-  //characters = [PokemonList];
+
 
 }
 
@@ -355,16 +395,9 @@ function randomNum(max, min){
 // CHARACTER BUILD
 // build the character UI
 function populateChar(container,character){
-  // which img
-  var facing = 'front';
-  if(character === 'hero'){
-    // we see the back of our hero
-    // a real hero faces danger
-    facing = 'back';
-  }
 
   // build the character
-  container.append('<section class="char"><img src="'+gameData[character].img[facing]+'" alt="'+gameData[character].name+'"><aside class="data"><h2>'+gameData[character].name+'</h2><div><progress max="'+gameData[character].hp.total+'"></progress><p><span>'+gameData[character].hp.current+'</span>/'+gameData[character].hp.total+'</p></div></aside></section>');
+  container.append('<section class="char"><img src="'+gameData[character].path+'" alt="'+gameData[character].name+'"><aside class="data"><h2>'+gameData[character].name+'</h2><div><progress max="'+gameData[character].pv_max+'"></progress><p><span>'+gameData[character].hp+'</span>/'+gameData[character].pv_max+'</p></div></aside></section>');
 }
 
 
@@ -398,8 +431,8 @@ function setHP(){
   // stop health animation and set value
   clearInterval(defendProgressInt);
   clearInterval(progressInt);
-  $('.stadium .enemy progress').val(gameData.enemy.hp.current);
-  $('.stadium .hero progress').val(gameData.hero.hp.current);
+  $('.stadium .enemy progress').val(gameData.enemy.hp);
+  $('.stadium .hero progress').val(gameData.hero.hp);
 }
 
 
@@ -424,11 +457,10 @@ function resetGame(){
   $('.characters').empty();
   $('.characters').removeClass('hidden');
 
-  for(var i in characters){
-    console.log(i);
-    console.log(PokemonList);
+  for(var i in PokemonList){
+    
     // build the character list
-    $(".characters").append('<div class="char-container"><img src="'+characters[i].img.default+'" alt="'+ PokemonList[i].name +'"><h2>'+characters[i].name+'</h2><span class="type '+characters[i].type+'"></span></div>')
+    $(".characters").append('<div class="char-container"><img src="'+PokemonList[i].path+'" alt="'+ PokemonList[i].name +'"><h2>'+PokemonList[i].name+'</h2><span class="type '+PokemonList[i].energy.name+'"></span></div>')
   }
   characterChoice();
 }
@@ -453,10 +485,10 @@ function characterChoice(){
 
       case 1:
         // step 1: choose your hero
-        for(var i in characters){
-          if(characters[i].name === name){
+        for(var i in PokemonList){
+          if(PokemonList[i].name === name){
             // find and save your chosen hero's data
-            gameData.hero = characters[i];
+            gameData.hero = PokemonList[i];
           }
         }
 
@@ -475,7 +507,7 @@ function characterChoice(){
         // update instructions
         $('.instructions p').text('Choose your enemy');
         // set health bar value
-        $('.stadium .hero progress').val(gameData.hero.hp.current);
+        $('.stadium .hero progress').val(gameData.hero.hp);
 
         // move on to choosing an enemy
         gameData.step = 2;
@@ -483,10 +515,10 @@ function characterChoice(){
 
       case 2:
         // step 2: choose your enemy
-        for(var i in characters){
-          if(characters[i].name === name){
+        for(var i in PokemonList){
+          if(PokemonList[i].name === name){
             // find and save the enemy data
-            gameData.enemy = characters[i];
+            gameData.enemy = PokemonList[i];
           }
         }
 
@@ -506,7 +538,7 @@ function characterChoice(){
         });
 
         // update enemy health bar value
-        $('.stadium .enemy progress').val(gameData.enemy.hp.current);
+        $('.stadium .enemy progress').val(gameData.enemy.hp);
 
        
 
@@ -569,9 +601,9 @@ function attackEnemy(that, callback){
     );
 
     // attack enemy
-    gameData.enemy.hp.current -= attackMultiplier('hero', curAttack);
+    gameData.enemy.hp -= attackMultiplier('hero', curAttack);
 
-    if(gameData.enemy.hp.current <= 0){
+    if(gameData.enemy.hp <= 0){
       // Enemy is dead
 
       clearModal();
@@ -580,7 +612,7 @@ function attackEnemy(that, callback){
     $('.modal-out').slideDown('400');
       modalControls();
 
-      gameData.enemy.hp.current = 0;
+      gameData.enemy.hp = 0;
       // clear the stadium of the dead
       $('.enemy').empty();
       // show the available characters
@@ -608,7 +640,7 @@ function attackEnemy(that, callback){
         // update health bar value
         $('.stadium .enemy progress').val(val);
 
-        if(val === gameData.enemy.hp.current){
+        if(val === gameData.enemy.hp){
           // if you've hit your target clear interval
           clearInterval(progressInt);
           progressComplete = 1;
@@ -616,7 +648,7 @@ function attackEnemy(that, callback){
       },1);
 
       // update health numbers
-      $('.stadium .enemy .data p span').text(gameData.enemy.hp.current);
+      $('.stadium .enemy .data p span').text(gameData.enemy.hp);
       that.children('.attack-count').children('small').children('span').text(curAttack.avail.remaining);
 
       // wait a second to recover
@@ -667,9 +699,9 @@ function defend(that){
   );
 
   // attack the hero
-  gameData.hero.hp.current -= attackMultiplier('enemy', enemyAttack);
+  gameData.hero.hp -= attackMultiplier('enemy', enemyAttack);
 
-  if(gameData.hero.hp.current <= 0){
+  if(gameData.hero.hp <= 0){
     // ding dong the hero's dead
 
     clearModal();
@@ -678,7 +710,7 @@ function defend(that){
     $('.modal-out').slideDown('400');
     modalControls()
 
-    gameData.hero.hp.current = 0;
+    gameData.hero.hp = 0;
 
     resetGame();
   }else{
@@ -696,7 +728,7 @@ function defend(that){
       // update health bar value
       $('.stadium .hero progress').val(val);
 
-      if(val === gameData.hero.hp.current){
+      if(val === gameData.hero.hp){
         // stop the interval when target is attained
         clearInterval(defendProgressInt);
         defendProgressComplete = 1;
@@ -704,7 +736,7 @@ function defend(that){
     },1);
 
     // update health value
-    $('.stadium .hero .data p span').text(gameData.hero.hp.current);
+    $('.stadium .hero .data p span').text(gameData.hero.hp);
 
     setTimeout(function(){
       if(defendProgressComplete && progressComplete){
@@ -767,3 +799,5 @@ function clearModal(){
   $('.modal-in footer').empty();
   setHP();
 }
+
+});

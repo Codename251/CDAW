@@ -1,9 +1,6 @@
 @extends('template')
 
-@section('style')
-
-     
-    
+@section('style') 
     <link href="{{asset('css/fight.css')}}" rel="stylesheet" />
     <link href="{{asset('css/styles.css')}}" rel="stylesheet" />
 @endsection

@@ -57,6 +57,7 @@ strong {
 
 .characters {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-around;
   transition: visibility 0.3s ease, opacity 0.3s ease, height 0.3s ease;
 }

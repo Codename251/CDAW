@@ -49,3 +49,10 @@
     </body>
 </html>
 @endsection
+
+@section('script')
+
+	<script src="{{asset('js/script.js')}}"></script>
+    <script src="{{asset('js/fight.js')}}"></script>
+	
+@endsection

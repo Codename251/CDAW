@@ -15,6 +15,8 @@
 // ATTACK SEQUENCE
 // MODAL CONTROLS
 
+//const { inRange } = require("lodash");
+
 
 /////////////////////////////////////////////
 // VARIABLES
@@ -42,6 +44,8 @@ var typeSprite = '',
     defendProgressComplete = 0,
     progressInt = null,
     progressComplete = 0;
+    player1Lives = 0;
+    player2Lives = 0;
 
 function buildVars(){
 
@@ -68,42 +72,31 @@ function buildVars(){
   defendProgressComplete = 0;
   progressInt = null;
   progressComplete = 0;
+  player1Lives = 3;
+  player2Lives = 3;
 
 
   for(var i in PokemonList){
     PokemonList[i].hp = PokemonList[i].pv_max;
     PokemonList[i].attacks = [
       {
-        name: "thunder jolt",
-        hp: randomNum(40,20),
-        avail: {
-          total: 30,
-          remaining: 30
-        }
+        name: "attaque normale",
+        hp: randomNum(40,20)
       },
       {
-        name: "electro ball",
-        hp: randomNum(60,45),
-        avail: {
-          total: 10,
-          remaining: 10
-        }
+        name: "attaque spéciale",
+        hp: randomNum(60,45)
+        
       },
       {
-        name: "volt tackle",
-        hp: randomNum(75,60),
-        avail: {
-          total: 5,
-          remaining: 5
-        }
+        name: "défense normale",
+        hp: randomNum(75,60)
+        
       },
       {
-        name: "thunder crack",
-        hp: randomNum(160, 130),
-        avail: {
-          total: 2,
-          remaining: 2
-        }
+        name: "défense spéciale",
+        hp: randomNum(160, 130)
+        
       }
     ];
 
@@ -451,7 +444,7 @@ function resetGame(){
   $('.attack-list li').unbind('click');
   $('.attack-list').empty();
   $('.stadium .enemy').css({'padding':'0'});
-  $('.instructions p').text('Choose your hero');
+  $('.instructions p').text('Player 1 Choose your Pokemon : restants ' + player1Lives);
 
   // empty characters
   $('.characters').empty();
@@ -468,6 +461,15 @@ resetGame();
 $('.logo').click(function(){resetGame();});
 
 
+//Check if object is empty
+
+function isObjEmpty(obj) {
+  for (var prop in obj) {
+    if (obj.hasOwnProperty(prop)) return false;
+  }
+
+  return true;
+}
 
 
 /////////////////////////////////////////////
@@ -497,20 +499,45 @@ function characterChoice(){
         // build my hero
         populateChar($('.stadium .hero'), 'hero');
 
+        listeAttack = document.getElementsByClassName("attack-list");
+        console.log(listeAttack[0]);
+
+        console.log(listeAttack[0].childElementCount);
+
         for(var i in gameData.hero.attacks){
           // populate attack list
-          $('.attack-list').append('<li><p class="attack-name"><strong>'+gameData.hero.attacks[i].name+'</strong></p><p class="attack-count"><small><span>'+gameData.hero.attacks[i].avail.remaining+'</span>/'+gameData.hero.attacks[i].avail.total+'</small></p></li>');
+          
+          if(listeAttack[0].childElementCount < 4){
+              
+              $('.attack-list').append('<li><p class="attack-name"><strong>'+gameData.hero.attacks[i].name+'</strong></p></li>');
+          }
         }
 
         $('.attack-list').addClass('disabled');
 
         // update instructions
-        $('.instructions p').text('Choose your enemy');
+        $('.instructions p').text('Player 2 Choose your Pokemon : restant ' + player2Lives);
         // set health bar value
         $('.stadium .hero progress').val(gameData.hero.hp);
 
         // move on to choosing an enemy
-        gameData.step = 2;
+
+        console.log(gameData.enemy);
+        if(isObjEmpty(gameData.enemy)){
+          console.log(gameData.enemy);
+          console.log("go to step 2");
+          gameData.step = 2;
+        }
+        else{
+          console.log("go to step 3");
+          gameData.step = 3;
+          // hide the hero list
+          $('.characters').children().slideUp('500', function(){
+            $('.characters').addClass('hidden');
+          });
+          attackList();
+        }
+      
         break;
 
       case 2:
@@ -529,6 +556,8 @@ function characterChoice(){
         // pad the stadium - give them some breathing room
         $('.stadium .enemy').css({'padding':'25px 0'});
 
+      
+        
         // update instructions
         $('.instructions p').text('Fight!!!');
 
@@ -539,8 +568,6 @@ function characterChoice(){
 
         // update enemy health bar value
         $('.stadium .enemy progress').val(gameData.enemy.hp);
-
-       
 
         // update step to attack phase and bind click events
         gameData.step = 3;
@@ -570,8 +597,12 @@ function attackEnemy(that, callback){
     }
   }
 
-  // if there are attacks left
-  if(curAttack.avail.remaining > 0){
+  if(curAttack.name == "défense normale" || curAttack.name == "défense spéciale"){
+    gameData.hero.isDefending = true;
+  }
+
+  else{
+    gameData.hero.isDefending = false;
     // attack!!!
     $('.attack-list').addClass('disabled');
 
@@ -602,15 +633,33 @@ function attackEnemy(that, callback){
 
     // attack enemy
     gameData.enemy.hp -= attackMultiplier('hero', curAttack);
+  
+    }
+    
 
     if(gameData.enemy.hp <= 0){
       // Enemy is dead
 
-      clearModal();
-    $('.modal-in header').append('<h1>You Enemy is slain</h1><span class="close">x</span>');
-    $('.modal-in section').append('<p>Congratulations! Dare you try again?');
-    $('.modal-out').slideDown('400');
-      modalControls();
+      player2Lives --;
+      if(player2Lives == 0){
+        clearModal();
+        $('.modal-in header').append('<h1>Player 1 win !</h1><span class="close">x</span>');
+        $('.modal-in section').append('<p>Vous pouvez recommencer en fermant cette fenêtre ou revenir au menu principal en cliquant sur le logo PokeBattle');
+        $('.modal-out').slideDown('400');
+        modalControls()
+        resetGame();
+        return;
+      }
+
+      else{
+        clearModal();
+        $('.modal-in header').append('<h1>Player 2 Pokemon is dead !</h1><span class="close">x</span>');
+        $('.modal-in section').append('<p>Il lui reste ' + player2Lives + ' Pokemons');
+        $('.modal-out').slideDown('400');
+        modalControls();
+      }
+
+     
 
       gameData.enemy.hp = 0;
       // clear the stadium of the dead
@@ -626,10 +675,9 @@ function attackEnemy(that, callback){
       // unbind click for reset
       $('.attack-list li').unbind('click');
     }else{
-      // enemy is still alive (Attack!!!)
 
-      // subtract attack
-      curAttack.avail.remaining--;
+      if(!gameData.hero.isDefending){
+        // enemy is still alive (Attack!!!)
 
       // interval to animate health bar
       progressInt = setInterval(function(){
@@ -649,15 +697,18 @@ function attackEnemy(that, callback){
 
       // update health numbers
       $('.stadium .enemy .data p span').text(gameData.enemy.hp);
-      that.children('.attack-count').children('small').children('span').text(curAttack.avail.remaining);
+      }
 
+      
+      
+    
       // wait a second to recover
       setTimeout(function(){
         // now defend that attack
         defend(that);
       }, 1000);
     }
-  }
+  
 }
 
 
@@ -672,54 +723,84 @@ function defend(that){
   randInt = randomNum(gameData.enemy.attacks.length);
   enemyAttack = gameData.enemy.attacks[randInt];
 
-  // enemy attack animation sequence
-  $('.enemy .char img').animate(
-    {
-      'margin-right': '-30px',
-      'margin-top': '-10px'
-    },
-    50,
-    'swing'
-  );
-  $('.enemy .char img').animate(
-    {
-      'margin-right': '30px',
-      'margin-top': '10px'
-    },
-    50,
-    'swing'
-  );
-  $('.enemy .char img').animate(
-    {
-      'margin-right': '0px',
-      'margin-top': '0px'
-    },
-    50,
-    'swing'
-  );
+  if(enemyAttack.name == "défense normale" || enemyAttack.name == "défense spéciale"){
+      gameData.enemy.isDefending = true;
+  }
 
-  // attack the hero
-  gameData.hero.hp -= attackMultiplier('enemy', enemyAttack);
+  else{
+
+    gameData.enemy.isDefending = false;
+    // enemy attack animation sequence
+    $('.enemy .char img').animate(
+      {
+        'margin-right': '-30px',
+        'margin-top': '-10px'
+      },
+      50,
+      'swing'
+    );
+    $('.enemy .char img').animate(
+      {
+        'margin-right': '30px',
+        'margin-top': '10px'
+      },
+      50,
+      'swing'
+    );
+    $('.enemy .char img').animate(
+      {
+        'margin-right': '0px',
+        'margin-top': '0px'
+      },
+      50,
+      'swing'
+    );
+
+    // attack the hero
+    gameData.hero.hp -= attackMultiplier('enemy', enemyAttack);
+  }
+
+  
 
   if(gameData.hero.hp <= 0){
     // ding dong the hero's dead
+    player1Lives --;
 
-    clearModal();
-    $('.modal-in header').append('<h1>Your Hero has died</h1><span class="close">x</span>');
-    $('.modal-in section').append('<p>You lose, good day!');
-    $('.modal-out').slideDown('400');
-    modalControls()
+    if(player1Lives == 0){
+      clearModal();
+      $('.modal-in header').append('<h1>Player 2 win !</h1><span class="close">x</span>');
+      $('.modal-in section').append('<p>Vous pouvez recommencer en fermant cette fenêtre ou revenir au menu principal en cliquant sur le logo PokeBattle');
+      $('.modal-out').slideDown('400');
+      modalControls()
+      resetGame();
+    }
+
+    else{
+      clearModal();
+      $('.modal-in header').append('<h1>Player 1 pokemon is dead !</h1><span class="close">x</span>');
+      $('.modal-in section').append('<p>Il lui reste ' + player1Lives + ' Pokemons');
+      $('.modal-out').slideDown('400');
+      modalControls()
+    }
 
     gameData.hero.hp = 0;
+      // clear the stadium of the dead
+      $('.hero').empty();
+      // show the available characters
+      $('.characters').removeClass('hidden');
+      $('.characters').children().slideDown('500');
 
-    resetGame();
+    gameData.hero = {};
+
+    // choose hero
+    gameData.step = 1;
+    // unbind click for reset
+    $('.attack-list li').unbind('click');
   }else{
     // the hero lives
 
-    // subtract attack from enemy count
-    gameData.enemy.attacks[randInt].avail.remaining--;
-
-    // health bar animation
+    if(!gameData.enemy.isDefending){
+      // health bar animation
     defendProgressInt = setInterval(function(){
       // get current val of health bar
       var val = $('.stadium .hero progress').val();
@@ -737,7 +818,9 @@ function defend(that){
 
     // update health value
     $('.stadium .hero .data p span').text(gameData.hero.hp);
+    }
 
+    
     setTimeout(function(){
       if(defendProgressComplete && progressComplete){
         $('.attack-list').removeClass('disabled');

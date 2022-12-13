@@ -41,14 +41,16 @@
 
         <div class="ml-12">
             <div class="mt-2 text-llg text-gray-600">
-                {{ Auth::user()->energies }}
+                <?php foreach(Auth::user()->energies as $energy):?>
+                    <span class="type <?php echo $energy->name ?>"></span>
+                <?php endforeach ?>
             </div>
 
             <a href="/listePokemons">
-                <div class="mt-3 flex items-center text-sm font-semibold text-indigo-700">
+                <div class="mt-3 flex items-center text-sm font-semibold text-primary">
                         <div>Voir les Pokemons</div>
 
-                        <div class="ml-1 text-indigo-500">
+                        <div class="ml-1 text-primary">
                             <svg viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                         </div>
                 </div>

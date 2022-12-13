@@ -19,13 +19,14 @@
 
         <!-- Scripts -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/fight.css') }}">
 
         <!--@vite(['resources/css/app.css', 'resources/js/app.js'])-->
     </head>
     <body class="font-sans antialiased">
         <x-jet-banner />
 
-        <div class="min-h-screen bg-gray-100" style="padding-top: calc(6rem + 1px)">
+        <div class="min-h-screen bg-gray-100" style="padding-top: calc(4rem + 2px)">
             @livewire('navigation-menu')
 
             <!-- Page Heading -->

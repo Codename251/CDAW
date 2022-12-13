@@ -12,9 +12,8 @@
         <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
         <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="css/styles.css" rel="stylesheet" />
-        <link href="{{asset('css/content.css')}}" rel="stylesheet" />
-        <script src="{{asset('js/script.js')}}"></script>
+        <link href="http://127.0.0.1:8000/css/styles.css" rel="stylesheet" />
+        <link href="http://127.0.0.1:8000/css/content.css" rel="stylesheet" />
         
         @yield('style')
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -101,7 +100,7 @@
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
+        <script src="http://127.0.0.1:8000/js/scripts.js"></script>
        
         <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
         @yield('script')

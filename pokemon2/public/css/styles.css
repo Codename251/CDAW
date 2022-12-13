@@ -35,6 +35,7 @@
   --bs-gray-900: #212529;
   --bs-primary: #1abc9c;
   --bs-secondary: #2c3e50;
+  --bs-tertiary: #ed5564;
   --bs-success: #198754;
   --bs-info: #0dcaf0;
   --bs-warning: #ffc107;
@@ -43,6 +44,7 @@
   --bs-dark: #212529;
   --bs-primary-rgb: 26, 188, 156;
   --bs-secondary-rgb: 44, 62, 80;
+  --bs-tertiary-rgb: 237, 85, 100;
   --bs-success-rgb: 25, 135, 84;
   --bs-info-rgb: 13, 202, 240;
   --bs-warning-rgb: 255, 193, 7;
@@ -3089,6 +3091,36 @@ textarea.form-control-lg {
   border-color: #2c3e50;
 }
 
+.btn-tertiary {
+  color: #fff;
+  background-color: #ed5564;
+  border-color: #ed5564;
+}
+.btn-tertiary:hover {
+  color: #fff;
+  background-color: #cd4b58;
+  border-color: #e94354;
+}
+.btn-check:focus + .btn-tertiary, .btn-tertiary:focus {
+  color: #fff;
+  background-color: #cd4b58;
+  border-color: #e94354;
+  box-shadow: 0 0 0 0.25rem rgba(233, 67, 84 , 0.5);
+}
+.btn-check:checked + .btn-tertiary, .btn-check:active + .btn-tertiary, .btn-tertiary:active, .btn-tertiary.active, .show > .btn-tertiary.dropdown-toggle {
+  color: #fff;
+  background-color: #cd4b58;
+  border-color: #d43e4d;
+}
+.btn-check:checked + .btn-tertiary:focus, .btn-check:active + .btn-tertiary:focus, .btn-tertiary:active:focus, .btn-tertiary.active:focus, .show > .btn-tertiary.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.25rem rgba(233, 67, 84 , 0.5);
+}
+.btn-tertiary:disabled, .btn-tertiary.disabled {
+  color: #fff;
+  background-color: #ed5564;
+  border-color: #ed5564;
+}
+
 .btn-success {
   color: #fff;
   background-color: #198754;
@@ -5032,7 +5064,7 @@ textarea.form-control-lg {
   color: #fff;
   text-align: center;
   white-space: nowrap;
-  background-color: #1abc9c;
+  background-color: #ed5564;
   transition: width 0.6s ease;
 }
 @media (prefers-reduced-motion: reduce) {
@@ -6447,6 +6479,13 @@ textarea.form-control-lg {
   color: #233240;
 }
 
+.link-tertiary {
+  color: #ed5564;
+}
+.link-tertiary:hover, .link-tertiary:focus {
+  color: #e94354;
+}
+
 .link-success {
   color: #198754;
 }
@@ -7725,6 +7764,11 @@ textarea.form-control-lg {
   color: rgba(var(--bs-secondary-rgb), var(--bs-text-opacity)) !important;
 }
 
+.text-tertiary {
+  --bs-text-opacity: 1;
+  color: rgba(var(--bs-tertiary-rgb), var(--bs-text-opacity)) !important;
+}
+
 .text-success {
   --bs-text-opacity: 1;
   color: rgba(var(--bs-success-rgb), var(--bs-text-opacity)) !important;
@@ -7814,6 +7858,11 @@ textarea.form-control-lg {
 .bg-secondary {
   --bs-bg-opacity: 1;
   background-color: rgba(var(--bs-secondary-rgb), var(--bs-bg-opacity)) !important;
+}
+
+.bg-tertiary {
+  --bs-bg-opacity: 1;
+  background-color: rgba(var(--bs-tertiary-rgb), var(--bs-bg-opacity)) !important;
 }
 
 .bg-success {

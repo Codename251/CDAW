@@ -53,7 +53,7 @@
 
 @section('script')
 
-	<script src="{{asset('js/script.js')}}"></script>
+	<script src="{{asset('js/scripts.js')}}"></script>
     <script src="{{asset('js/fight.js')}}"></script>
 	
 @endsection

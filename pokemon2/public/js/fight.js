@@ -15,6 +15,8 @@
 // ATTACK SEQUENCE
 // MODAL CONTROLS
 
+//const { functionsIn } = require("lodash");
+
 //const { inRange } = require("lodash");
 
 
@@ -30,6 +32,7 @@ window.addEventListener('load', function () {
   PokemonList = JSON.parse(PokemonList);
 
   console.log(PokemonList);
+  console.log(fightMode);
 
 
 var typeSprite = '',
@@ -434,7 +437,6 @@ function attackMultiplier(attacker, curAttack){
   curAttack.hp = Math.floor(curAttack.hp);
 
   if(gameData[defender].isDefending){
-    console.log("défense !!! ");
     if(curAttack.hp - gameData[defender].shield > 1){
       curAttack.hp -= gameData[defender].shield;
     }
@@ -471,6 +473,8 @@ function resetGame(){
   // reset
   $('.attack-list li').unbind('click');
   $('.attack-list').empty();
+  $('.enemy-attack-list li').unbind('click');
+  $('.enemy-attack-list').empty();
   $('.stadium .enemy').css({'padding':'0'});
   $('.instructions p').text('Player 1 Choose your Pokemon : restants ' + player1Lives);
 
@@ -538,10 +542,12 @@ function characterChoice(){
           if(listeAttack[0].childElementCount < 4){
               
               $('.attack-list').append('<li><p class="attack-name"><strong>'+gameData.hero.attacks[i].name+'</strong></p></li>');
+              $('.enemy-attack-list').append('<li><p class="enemy-attack-name"><strong>'+gameData.hero.attacks[i].name+'</strong></p></li>');
           }
         }
 
         $('.attack-list').addClass('disabled');
+        $('.enemy-attack-list').addClass('disabled');
 
         // update instructions
         $('.instructions p').text('Player 2 Choose your Pokemon : restant ' + player2Lives);
@@ -634,6 +640,7 @@ function attackEnemy(that, callback){
     gameData.hero.isDefending = false;
     // attack!!!
     $('.attack-list').addClass('disabled');
+    $('.enemy-attack-list').addClass('disabled');
 
     $('.hero .char img').animate(
       {
@@ -729,28 +736,52 @@ function attackEnemy(that, callback){
       }
 
       
-      
-    
       // wait a second to recover
       setTimeout(function(){
         // now defend that attack
-        defend(that);
+        if(fightMode == "RandomManuel/" || fightMode == "manuelManuel/"){
+            EnemyattackList(that);
+        }
+
+        else{
+          defend(that);
+        }
+        
       }, 1000);
     }
   
 }
 
-
-
-
+this.setInterval(function(){
+  console.log(gameData.step)
+},500);
 
 /////////////////////////////////////////////
 // ENEMY ATTACK (DEFEND)
 /////////////////////////////////////////////
 function defend(that){
-  // random attack
-  randInt = randomNum(gameData.enemy.attacks.length);
-  enemyAttack = gameData.enemy.attacks[randInt];
+
+  if(fightMode == "RandomManuel/" || fightMode == "manuelManuel/"){
+    // name of your attack
+    EnemyAttackName = that.children('.enemy-attack-name').children('strong').text().toLowerCase();
+
+    for(var i in gameData.enemy.attacks){
+      if(gameData.enemy.attacks[i].name === EnemyAttackName){
+        // get chosen attack data
+        enemyAttack = gameData.enemy.attacks[i];
+      }
+    }
+    console.log(enemyAttack);
+  }
+
+  else{
+
+    // random attack
+    randInt = randomNum(gameData.enemy.attacks.length);
+    enemyAttack = gameData.enemy.attacks[randInt];
+    
+  }
+  
 
   if(enemyAttack.name == "défense normale" || enemyAttack.name == "défense spéciale"){
       gameData.enemy.isDefending = true;
@@ -854,11 +885,14 @@ function defend(that){
     setTimeout(function(){
       if(defendProgressComplete && progressComplete){
         $('.attack-list').removeClass('disabled');
+        $('.enemy-attack-list').addClass('disabled');
+        
       }else{
         setHP();
         $('.attack-list').removeClass('disabled');
+        $('.enemy-attack-list').addClass('disabled');
       }
-    }, 500);
+    }, 1000);
   }
 }
 
@@ -877,9 +911,27 @@ function attackList(){
     // attack choice is clicked
     var doAttack = 1;
 
-    if(gameData.step === 3){
+    if(gameData.step == 3){
       // attack step - start attack sequence
       attackEnemy($(this));
+    }
+  });
+
+}
+
+function EnemyattackList(that){
+  // attack instantiation
+
+  $('.attack-list').addClass('disabled');
+  $('.enemy-attack-list').removeClass('disabled');
+
+  $('.enemy-attack-list li').click(function(){
+    // attack choice is clicked
+    var doAttack = 1;
+
+    if(gameData.step == 3){
+      // attack step - start attack sequence
+      defend($(this));
     }
   });
 

@@ -164,6 +164,35 @@ strong {
   background: #eee;
 }
 
+
+.enemy-attack-list {
+  display: flex;
+  flex-wrap: wrap;
+  background: #fffafa;
+  position: initial;
+  transtion: opacity 0.3s ease;
+  text-transform: capitalize;
+  list-style: none;
+}
+.enemy-attack-list.disabled {
+  opacity: 0.5;
+  position: relative;
+  z-index: -1;
+  cursor: initial;
+}
+.enemy-attack-list li {
+  width: 50%;
+  text-align: center;
+  padding: 25px 0;
+  box-sizing: border-box;
+  border: 1px solid #666;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.enemy-attack-list li:hover {
+  background: #eee;
+}
+
 .modal-out {
   display: none;
   position: fixed;

@@ -28,6 +28,7 @@
   
   
   <ul class="attack-list"></ul>
+  <ul class="enemy-attack-list"></ul>
 </main>
 
 

@@ -81,27 +81,45 @@ function buildVars(){
     PokemonList[i].attacks = [
       {
         name: "attaque normale",
-        hp: randomNum(40,20)
+        hp: randomNum(20,10)
       },
       {
         name: "attaque spéciale",
-        hp: randomNum(60,45)
+        hp: randomNum(40,20)
         
       },
       {
         name: "défense normale",
-        hp: randomNum(75,60)
+        hp: randomNum(20,10)
         
       },
       {
         name: "défense spéciale",
-        hp: randomNum(160, 130)
+        hp: randomNum(40, 20)
         
       }
     ];
 
-    PokemonList[i].weakness =  ['fighting'];
-    PokemonList[i].resistance = ['steel'];
+    if(PokemonList[i].energy.name == "grass"){
+      PokemonList[i].weakness =  ['fire'];
+      PokemonList[i].resistance = ['water'];
+    }
+
+    else if(PokemonList[i].energy.name == "fire"){
+      PokemonList[i].weakness =  ['water'];
+      PokemonList[i].resistance = ['grass'];
+    }
+
+    else if(PokemonList[i].energy.name == "water"){
+      PokemonList[i].weakness =  ['grass'];
+      PokemonList[i].resistance = ['fire'];
+    }
+
+    else{
+      PokemonList[i].weakness =  ['fighting'];
+      PokemonList[i].resistance = ['steel'];
+    }
+    
   }
 
 
@@ -414,6 +432,16 @@ function attackMultiplier(attacker, curAttack){
   }
 
   curAttack.hp = Math.floor(curAttack.hp);
+
+  if(gameData[defender].isDefending){
+    console.log("défense !!! ");
+    if(curAttack.hp - gameData[defender].shield > 1){
+      curAttack.hp -= gameData[defender].shield;
+    }
+    else{
+      curAttack.hp = 1;
+    }
+  }
   return curAttack.hp;
 }
 
@@ -599,6 +627,7 @@ function attackEnemy(that, callback){
 
   if(curAttack.name == "défense normale" || curAttack.name == "défense spéciale"){
     gameData.hero.isDefending = true;
+    gameData.hero.shield = curAttack.hp;
   }
 
   else{
@@ -725,6 +754,7 @@ function defend(that){
 
   if(enemyAttack.name == "défense normale" || enemyAttack.name == "défense spéciale"){
       gameData.enemy.isDefending = true;
+      gameData.enemy.shield = enemyAttack.hp;
   }
 
   else{

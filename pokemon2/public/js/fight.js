@@ -49,6 +49,7 @@ var typeSprite = '',
     progressComplete = 0;
     player1Lives = 0;
     player2Lives = 0;
+    gameLog = "";
 
 function buildVars(){
 
@@ -77,6 +78,7 @@ function buildVars(){
   progressComplete = 0;
   player1Lives = 3;
   player2Lives = 3;
+  gameLog = "";
 
 
   for(var i in PokemonList){
@@ -465,6 +467,12 @@ function setHP(){
 function resetGame(){
   // set default values for game variables
   buildVars();
+
+  fightModeToString = fightMode.substring(0, fightMode.length - 1);
+  gameLog = gameLog.concat('', "Début de la partie en " + fightModeToString);
+
+  gameLog = gameLog.concat('\n', fightModeToString);
+  
 
   // clear the stadium
   $('.hero').empty();
@@ -856,7 +864,8 @@ function attackEnemy(that, callback){
 }
 
 this.setInterval(function(){
-  console.log(gameData.step)
+  console.log(gameData.step);
+  console.log(gameLog);
 },500);
 
 /////////////////////////////////////////////

@@ -508,23 +508,14 @@ function isObjEmpty(obj) {
 // CHARACTER CHOICE
 /////////////////////////////////////////////
 function characterChoice(){
-  $('.characters .char-container').click(function(){
-    // you have chosen a character
 
-    // your chosen character name
-    var name = $(this).children('h2').text().toLowerCase();
-
+  if(fightMode == "RandomAuto/" || fightMode == "RandomManuel/" ){
     switch(gameData.step){
       // switch for the current step in the game
-
       case 1:
-        // step 1: choose your hero
-        for(var i in PokemonList){
-          if(PokemonList[i].name === name){
-            // find and save your chosen hero's data
-            gameData.hero = PokemonList[i];
-          }
-        }
+        // step 1: automatic hero attribution
+        randInt = randomNum(PokemonList.length);
+        gameData.hero = PokemonList[randInt];
 
         // remove the character from the available list
         var char = $(this).remove();
@@ -532,9 +523,6 @@ function characterChoice(){
         populateChar($('.stadium .hero'), 'hero');
 
         listeAttack = document.getElementsByClassName("attack-list");
-        console.log(listeAttack[0]);
-
-        console.log(listeAttack[0].childElementCount);
 
         for(var i in gameData.hero.attacks){
           // populate attack list
@@ -555,12 +543,10 @@ function characterChoice(){
         $('.stadium .hero progress').val(gameData.hero.hp);
 
         // move on to choosing an enemy
-
-        console.log(gameData.enemy);
         if(isObjEmpty(gameData.enemy)){
-          console.log(gameData.enemy);
           console.log("go to step 2");
           gameData.step = 2;
+          characterChoice();
         }
         else{
           console.log("go to step 3");
@@ -575,13 +561,12 @@ function characterChoice(){
         break;
 
       case 2:
-        // step 2: choose your enemy
-        for(var i in PokemonList){
-          if(PokemonList[i].name === name){
-            // find and save the enemy data
-            gameData.enemy = PokemonList[i];
-          }
+        // step 2: automatic enemy attribution
+        randInt2 = randomNum(PokemonList.length);
+        while(randInt2 == randInt){
+          randInt2 = randomNum(PokemonList.length);
         }
+        gameData.enemy = PokemonList[randInt2];
 
         // remove the enemy from the list
         var char = $(this).remove();
@@ -608,7 +593,113 @@ function characterChoice(){
         attackList();
         break;
     }
-  });
+  }
+
+
+  else{
+    $('.characters .char-container').click(function(){
+      // you have chosen a character
+
+      // your chosen character name
+      var name = $(this).children('h2').text().toLowerCase();
+
+      switch(gameData.step){
+        // switch for the current step in the game
+
+        case 1:
+          // step 1: choose your hero
+          for(var i in PokemonList){
+            if(PokemonList[i].name === name){
+              // find and save your chosen hero's data
+              gameData.hero = PokemonList[i];
+            }
+          }
+
+          // remove the character from the available list
+          var char = $(this).remove();
+          // build my hero
+          populateChar($('.stadium .hero'), 'hero');
+
+          listeAttack = document.getElementsByClassName("attack-list");
+          console.log(listeAttack[0]);
+
+          console.log(listeAttack[0].childElementCount);
+
+          for(var i in gameData.hero.attacks){
+            // populate attack list
+            
+            if(listeAttack[0].childElementCount < 4){
+                
+                $('.attack-list').append('<li><p class="attack-name"><strong>'+gameData.hero.attacks[i].name+'</strong></p></li>');
+                $('.enemy-attack-list').append('<li><p class="enemy-attack-name"><strong>'+gameData.hero.attacks[i].name+'</strong></p></li>');
+            }
+          }
+
+          $('.attack-list').addClass('disabled');
+          $('.enemy-attack-list').addClass('disabled');
+
+          // update instructions
+          $('.instructions p').text('Player 2 Choose your Pokemon : restant ' + player2Lives);
+          // set health bar value
+          $('.stadium .hero progress').val(gameData.hero.hp);
+
+          // move on to choosing an enemy
+
+          console.log(gameData.enemy);
+          if(isObjEmpty(gameData.enemy)){
+            console.log(gameData.enemy);
+            console.log("go to step 2");
+            gameData.step = 2;
+          }
+          else{
+            console.log("go to step 3");
+            gameData.step = 3;
+            // hide the hero list
+            $('.characters').children().slideUp('500', function(){
+              $('.characters').addClass('hidden');
+            });
+            attackList();
+          }
+        
+          break;
+
+        case 2:
+          // step 2: choose your enemy
+          for(var i in PokemonList){
+            if(PokemonList[i].name === name){
+              // find and save the enemy data
+              gameData.enemy = PokemonList[i];
+            }
+          }
+
+          // remove the enemy from the list
+          var char = $(this).remove();
+          // build the enemy
+          populateChar($('.stadium .enemy'), 'enemy');
+          // pad the stadium - give them some breathing room
+          $('.stadium .enemy').css({'padding':'25px 0'});
+
+        
+          
+          // update instructions
+          $('.instructions p').text('Fight!!!');
+
+          // hide the hero list
+          $('.characters').children().slideUp('500', function(){
+            $('.characters').addClass('hidden');
+          });
+
+          // update enemy health bar value
+          $('.stadium .enemy progress').val(gameData.enemy.hp);
+
+          // update step to attack phase and bind click events
+          gameData.step = 3;
+          attackList();
+          break;
+      }
+    });
+  }
+  
 }
 
 
@@ -691,8 +782,10 @@ function attackEnemy(that, callback){
         $('.modal-in header').append('<h1>Player 1 win !</h1><span class="close">x</span>');
         $('.modal-in section').append('<p>Vous pouvez recommencer en fermant cette fenêtre ou revenir au menu principal en cliquant sur le logo PokeBattle');
         $('.modal-out').slideDown('400');
-        modalControls()
-        resetGame();
+        modalControls();
+        if(fightMode == "manuelManuel/"){
+          resetGame();
+        }
         return;
       }
 
@@ -717,6 +810,7 @@ function attackEnemy(that, callback){
 
       // choose enemy
       gameData.step = 2;
+     
       // unbind click for reset
       $('.attack-list li').unbind('click');
     }else{
@@ -841,8 +935,10 @@ function defend(that){
       $('.modal-in header').append('<h1>Player 2 win !</h1><span class="close">x</span>');
       $('.modal-in section').append('<p>Vous pouvez recommencer en fermant cette fenêtre ou revenir au menu principal en cliquant sur le logo PokeBattle');
       $('.modal-out').slideDown('400');
-      modalControls()
-      resetGame();
+      modalControls();
+      if(fightMode == "manuelManuel/"){
+        resetGame();
+      }
     }
 
     else{
@@ -976,9 +1072,31 @@ function EnemyattackList(that){
 function modalControls(){
   $('.modal-out').click(function(){
     $(this).slideUp('400');
+
+    if(fightMode == "RandomAuto/" || fightMode == "RandomManuel/" ){
+  
+      if(player1Lives == 0 || player2Lives == 0){
+        resetGame();
+
+      }
+      else{
+        characterChoice();
+      }
+    }
   });
   $('.modal-in .close').click(function(e){
     $('.modal-out').slideUp('400');
+
+    if(fightMode == "RandomAuto/" || fightMode == "RandomManuel/" ){
+
+      if(player1Lives == 0 || player2Lives == 0){
+        resetGame();
+      }
+      else{
+        characterChoice();
+      }
+    }
+    
   });
 
   $('.modal-in').click(function(e){

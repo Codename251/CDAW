@@ -93,12 +93,12 @@ function buildVars(){
       },
       {
         name: "défense normale",
-        hp: randomNum(20,10)
+        hp: randomNum(10,5)
         
       },
       {
         name: "défense spéciale",
-        hp: randomNum(40, 20)
+        hp: randomNum(20, 10)
         
       }
     ];
@@ -620,16 +620,25 @@ function characterChoice(){
 /////////////////////////////////////////////
 function attackEnemy(that, callback){
   // attack the enemy!!!
+  if(fightMode == "RandomAuto/"){
+      // random attack
+    randInt = randomNum(gameData.hero.attacks.length);
+    curAttack = gameData.hero.attacks[randInt];
+  }
 
-  // name of your attack
-  attackName = that.children('.attack-name').children('strong').text().toLowerCase();
+  else{
+     // name of your attack
+    attackName = that.children('.attack-name').children('strong').text().toLowerCase();
 
-  for(var i in gameData.hero.attacks){
-    if(gameData.hero.attacks[i].name === attackName){
-      // get chosen attack data
-      curAttack = gameData.hero.attacks[i];
+    for(var i in gameData.hero.attacks){
+      if(gameData.hero.attacks[i].name === attackName){
+        // get chosen attack data
+        curAttack = gameData.hero.attacks[i];
+      }
     }
   }
+
+ 
 
   if(curAttack.name == "défense normale" || curAttack.name == "défense spéciale"){
     gameData.hero.isDefending = true;
@@ -713,26 +722,26 @@ function attackEnemy(that, callback){
     }else{
 
       if(!gameData.hero.isDefending){
-        // enemy is still alive (Attack!!!)
+          // enemy is still alive (Attack!!!)
 
-      // interval to animate health bar
-      progressInt = setInterval(function(){
-        // get current value of health bar
-        var val = $('.stadium .enemy progress').val();
-        val--;
+        // interval to animate health bar
+        progressInt = setInterval(function(){
+          // get current value of health bar
+          var val = $('.stadium .enemy progress').val();
+          val--;
 
-        // update health bar value
-        $('.stadium .enemy progress').val(val);
+          // update health bar value
+          $('.stadium .enemy progress').val(val);
 
-        if(val === gameData.enemy.hp){
-          // if you've hit your target clear interval
-          clearInterval(progressInt);
-          progressComplete = 1;
-        }
-      },1);
+          if(val === gameData.enemy.hp){
+            // if you've hit your target clear interval
+            clearInterval(progressInt);
+            progressComplete = 1;
+          }
+        },1);
 
-      // update health numbers
-      $('.stadium .enemy .data p span').text(gameData.enemy.hp);
+        // update health numbers
+        $('.stadium .enemy .data p span').text(gameData.enemy.hp);
       }
 
       
@@ -882,15 +891,22 @@ function defend(that){
     }
 
     
-    setTimeout(function(){
-      if(defendProgressComplete && progressComplete){
-        $('.attack-list').removeClass('disabled');
-        $('.enemy-attack-list').addClass('disabled');
-        
-      }else{
-        setHP();
-        $('.attack-list').removeClass('disabled');
-        $('.enemy-attack-list').addClass('disabled');
+    setTimeout(function(){   
+
+      if(fightMode == "RandomAuto/"){
+        attackEnemy($(this));
+      }
+
+      else{
+          if(defendProgressComplete && progressComplete){
+            $('.attack-list').removeClass('disabled');
+            $('.enemy-attack-list').addClass('disabled');
+            
+          }else{
+            setHP();
+            $('.attack-list').removeClass('disabled');
+            $('.enemy-attack-list').addClass('disabled');
+          }
       }
     }, 1000);
   }
@@ -905,17 +921,30 @@ function defend(that){
 /////////////////////////////////////////////
 function attackList(){
   // attack instantiation
-  $('.attack-list').removeClass('disabled');
 
-  $('.attack-list li').click(function(){
-    // attack choice is clicked
-    var doAttack = 1;
+  if(fightMode == "RandomAuto/"){
+    setTimeout(function(){
+       attackEnemy($(this));
+  
+    },1000);
 
-    if(gameData.step == 3){
-      // attack step - start attack sequence
-      attackEnemy($(this));
-    }
-  });
+  }
+   
+  else{
+    $('.attack-list').removeClass('disabled');
+
+    $('.attack-list li').click(function(){
+      // attack choice is clicked
+      var doAttack = 1;
+
+      if(gameData.step == 3){
+        // attack step - start attack sequence
+
+        attackEnemy($(this));
+      }
+    });
+  }
+  
 
 }
 

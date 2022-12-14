@@ -71,11 +71,26 @@
                     </div>
                     <!-- Portfolio Item 4-->
                     <div class="col-md-6 col-lg-4 mb-5 mb-lg-0">
-                        <a href= "/fight/manuelManuel"> 
+                        @auth
+                        <a href= "/fight/manuelManuel">
+                         
                         <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal4">
                             <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-                                <div class="portfolio-item-caption-content text-center text-white"><h3>Combat : Choix manuel / Tour par tour</h3></div>
+                            @endauth
+
+                        @guest
+                        <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal4">
+                            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100" style="background-color: rgba(180, 180, 180, 0.9);">
+                            @endguest
+
+                                <div class="portfolio-item-caption-content text-center text-white">
+                                    <h3>Combat : Choix manuel / Tour par tour</h3>
+                                    @guest
+                                    <a href="/login" class="text-secondary">Please connect to play</a>
+                                    @endguest
+                                </div>
                             </div>
+                            
                             <img class="img-fluid" src="assets/img/portfolio/game.png" alt="..." />
                         </div>
                         </a>
@@ -83,10 +98,24 @@
                     
                     <!-- Portfolio Item 5-->
                     <div class="col-md-6 col-lg-4 mb-5 mb-md-0">
-                        <a href= "/fight/RandomAuto">
+                        @auth
+                            <a href= "/fight/RandomAuto">
+    
                         <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal5">
                             <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-                                <div class="portfolio-item-caption-content text-center text-white"><h3>Combat : Choix aléatoire / Automatique</h3></div>
+                            @endauth
+                        
+                        @guest
+                        <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal5">
+                            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100" style="background-color: rgba(180, 180, 180, 0.9);">
+                            @endguest
+
+                                <div class="portfolio-item-caption-content text-center text-white">
+                                    <h3>Combat : Choix aléatoire / Automatique</h3>
+                                    @guest
+                                    <a href="/login" class="text-secondary">Please connect to play</a>
+                                    @endguest
+                                </div>
                             </div>
                             <img class="img-fluid" src="assets/img/portfolio/des.png" alt="..." />
                         </div>
@@ -94,10 +123,24 @@
                     </div>
                     <!-- Portfolio Item 6-->
                     <div class="col-md-6 col-lg-4">
-                        <a href= "/fight/RandomManuel">
+                        @auth
+                            <a href= "/fight/RandomManuel">
+                        
                         <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal6">
                             <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-                                <div class="portfolio-item-caption-content text-center text-white"><h3>Combat : Choix aléatoire / Tour par tour</h3></i></div>
+                            @endauth
+                        
+                        @guest
+                        <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal6">
+                            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100"  style="background-color: rgba(180, 180, 180, 0.9);">
+                            @endguest
+
+                                <div class="portfolio-item-caption-content text-center text-white">
+                                    <h3>Combat : Choix aléatoire / Tour par tour</h3>
+                                    @guest
+                                    <a href="/login" class="text-secondary">Please connect to play</a>
+                                    @endguest
+                                </div>
                             </div>
                             <img class="img-fluid" src="assets/img/portfolio/submarine.png" alt="..." />
                         </div>

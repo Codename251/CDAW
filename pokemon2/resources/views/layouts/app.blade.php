@@ -18,8 +18,9 @@
         <script src="{{ asset('js/app.js') }}" defer></script>
 
         <!-- Scripts -->
-        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/fight.css') }}">
+        <link rel="stylesheet" href="http://127.0.0.1:8000/css/app.css">
+        <link rel="stylesheet" href="http://127.0.0.1:8000/css/fight.css">
+        <link rel="stylesheet" href="http://127.0.0.1:8000/css/styles.css">
 
         <!--@vite(['resources/css/app.css', 'resources/js/app.js'])-->
     </head>

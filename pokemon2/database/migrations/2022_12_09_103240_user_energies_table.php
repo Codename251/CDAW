@@ -15,10 +15,10 @@ class UserEnergiesTable extends Migration
     {
         Schema::create('userEnergies', function (Blueprint $table) {
 
-            $table->integer('user_id');
+            $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
 
-            $table->integer('energy_id');
+            $table->unsignedInteger('energy_id');
             $table->foreign('energy_id')->references('id')->on('energy');
 
            

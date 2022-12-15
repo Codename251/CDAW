@@ -17,7 +17,7 @@ class UserEnergySeeder extends Seeder
     public function run()
     {
    
-        DB::table('userenergies')->insert([
+        DB::table('userEnergies')->insert([
              'user_id' => 1,
              'energy_id' => 1,
             ]);

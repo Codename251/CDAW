@@ -15,7 +15,7 @@ class PokemonTable extends Migration
     {
         Schema::create('pokemon', function (Blueprint $table) {
             $table->integer('id');
-            $table->integer('id_energy');
+            $table->unsignedInteger('id_energy');
             $table->foreign('id_energy')->references('id')->on('energy');
             $table->string('name');
             $table->integer('pv_max');

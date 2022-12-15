@@ -470,8 +470,6 @@ function resetGame(){
 
   fightModeToString = fightMode.substring(0, fightMode.length - 1);
   gameLog = gameLog.concat('', "Début de la partie en " + fightModeToString);
-
-  gameLog = gameLog.concat('\n', fightModeToString);
   
 
   // clear the stadium
@@ -530,6 +528,9 @@ function characterChoice(){
         // build my hero
         populateChar($('.stadium .hero'), 'hero');
 
+        //update gamelog
+        gameLog = gameLog.concat('\n', "Player 1 choose " + gameData.hero.name);
+
         listeAttack = document.getElementsByClassName("attack-list");
 
         for(var i in gameData.hero.attacks){
@@ -580,6 +581,9 @@ function characterChoice(){
         var char = $(this).remove();
         // build the enemy
         populateChar($('.stadium .enemy'), 'enemy');
+
+        //update gamelog
+        gameLog = gameLog.concat('\n', "Player 2 choose " + gameData.enemy.name);
         // pad the stadium - give them some breathing room
         $('.stadium .enemy').css({'padding':'25px 0'});
 
@@ -598,6 +602,8 @@ function characterChoice(){
 
         // update step to attack phase and bind click events
         gameData.step = 3;
+        //update gamelog
+        gameLog = gameLog.concat('\n', "Début du combat !");
         attackList();
         break;
     }
@@ -628,10 +634,10 @@ function characterChoice(){
           // build my hero
           populateChar($('.stadium .hero'), 'hero');
 
-          listeAttack = document.getElementsByClassName("attack-list");
-          console.log(listeAttack[0]);
+          //update gamelog
+          gameLog = gameLog.concat('\n', "Player 1 choose " + gameData.hero.name);
 
-          console.log(listeAttack[0].childElementCount);
+          listeAttack = document.getElementsByClassName("attack-list");
 
           for(var i in gameData.hero.attacks){
             // populate attack list
@@ -653,14 +659,11 @@ function characterChoice(){
 
           // move on to choosing an enemy
 
-          console.log(gameData.enemy);
+
           if(isObjEmpty(gameData.enemy)){
-            console.log(gameData.enemy);
-            console.log("go to step 2");
             gameData.step = 2;
           }
           else{
-            console.log("go to step 3");
             gameData.step = 3;
             // hide the hero list
             $('.characters').children().slideUp('500', function(){
@@ -684,6 +687,9 @@ function characterChoice(){
           var char = $(this).remove();
           // build the enemy
           populateChar($('.stadium .enemy'), 'enemy');
+
+          //update gamelog
+          gameLog = gameLog.concat('\n', "Player 2 choose " + gameData.enemy.name);
           // pad the stadium - give them some breathing room
           $('.stadium .enemy').css({'padding':'25px 0'});
 
@@ -737,6 +743,9 @@ function attackEnemy(that, callback){
     }
   }
 
+  //update gamelog
+  gameLog = gameLog.concat('\n', gameData.hero.name + " use " + curAttack.name);
+
  
 
   if(curAttack.name == "défense normale" || curAttack.name == "défense spéciale"){
@@ -777,15 +786,28 @@ function attackEnemy(that, callback){
 
     // attack enemy
     gameData.enemy.hp -= attackMultiplier('hero', curAttack);
+    //update gamelog
+    
+    if(gameData.enemy.hp > 0){
+      gameLog = gameLog.concat('\n', gameData.enemy.name + " have " + gameData.enemy.hp + " hp left");
+    }
+
+    else{
+      gameLog = gameLog.concat('\n', gameData.enemy.name + " have 0 hp left");
+    }
   
     }
     
 
     if(gameData.enemy.hp <= 0){
       // Enemy is dead
+      //update gamelog
+      gameLog = gameLog.concat('\n', gameData.enemy.name + " is dead");
 
       player2Lives --;
       if(player2Lives == 0){
+        //update gamelog
+        gameLog = gameLog.concat('\n', "Player 1 win !");
         clearModal();
         $('.modal-in header').append('<h1>Player 1 win !</h1><span class="close">x</span>');
         $('.modal-in section').append('<p>Vous pouvez recommencer en fermant cette fenêtre ou revenir au menu principal en cliquant sur le logo PokeBattle');
@@ -883,7 +905,6 @@ function defend(that){
         enemyAttack = gameData.enemy.attacks[i];
       }
     }
-    console.log(enemyAttack);
   }
 
   else{
@@ -893,6 +914,9 @@ function defend(that){
     enemyAttack = gameData.enemy.attacks[randInt];
     
   }
+
+  //update gamelog
+  gameLog = gameLog.concat('\n', gameData.enemy.name + " use " + enemyAttack.name);
   
 
   if(enemyAttack.name == "défense normale" || enemyAttack.name == "défense spéciale"){
@@ -931,6 +955,15 @@ function defend(that){
 
     // attack the hero
     gameData.hero.hp -= attackMultiplier('enemy', enemyAttack);
+    //update gamelog
+    if(gameData.hero.hp > 0){
+      gameLog = gameLog.concat('\n', gameData.hero.name + " have " + gameData.hero.hp + " hp left");
+    }
+
+    else{
+      gameLog = gameLog.concat('\n', gameData.hero.name + " have 0 hp left");
+    }
+    
   }
 
   
@@ -939,7 +972,13 @@ function defend(that){
     // ding dong the hero's dead
     player1Lives --;
 
+    //update gamelog
+    gameLog = gameLog.concat('\n', gameData.hero.name + " is dead !");
+    
+
     if(player1Lives == 0){
+      //update gamelog
+      gameLog = gameLog.concat('\n', "Player 2 win !");
       clearModal();
       $('.modal-in header').append('<h1>Player 2 win !</h1><span class="close">x</span>');
       $('.modal-in section').append('<p>Vous pouvez recommencer en fermant cette fenêtre ou revenir au menu principal en cliquant sur le logo PokeBattle');

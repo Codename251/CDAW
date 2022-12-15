@@ -6933,6 +6933,10 @@ textarea.form-control-lg {
   border-color: #2c3e50 !important;
 }
 
+.border-tertiary {
+  border-color: #ed5564 !important;
+}
+
 .border-success {
   border-color: #198754 !important;
 }

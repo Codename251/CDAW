@@ -17,7 +17,7 @@ class CreateMatchTable extends Migration
             $table->increments('id');
             $table->string('gagnant');
             $table->string('perdant');
-            $table->string('replay');
+            $table->longText('replay');
             $table->timestamps();
         });
     }

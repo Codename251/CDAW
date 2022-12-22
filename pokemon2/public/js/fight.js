@@ -469,7 +469,7 @@ function resetGame(){
   buildVars();
 
   fightModeToString = fightMode.substring(0, fightMode.length - 1);
-  gameLog = gameLog.concat('', "Début de la partie en " + fightModeToString);
+  gameLog = gameLog.concat('', "Début de la partie en " + fightModeToString + " ");
   
 
   // clear the stadium
@@ -529,7 +529,7 @@ function characterChoice(){
         populateChar($('.stadium .hero'), 'hero');
 
         //update gamelog
-        gameLog = gameLog.concat('\n', "Player 1 choose " + gameData.hero.name);
+        gameLog = gameLog.concat('\n', "Player 1 choose " + gameData.hero.name + " ");
 
         listeAttack = document.getElementsByClassName("attack-list");
 
@@ -583,7 +583,7 @@ function characterChoice(){
         populateChar($('.stadium .enemy'), 'enemy');
 
         //update gamelog
-        gameLog = gameLog.concat('\n', "Player 2 choose " + gameData.enemy.name);
+        gameLog = gameLog.concat('\n', "Player 2 choose " + gameData.enemy.name +" ");
         // pad the stadium - give them some breathing room
         $('.stadium .enemy').css({'padding':'25px 0'});
 
@@ -603,7 +603,7 @@ function characterChoice(){
         // update step to attack phase and bind click events
         gameData.step = 3;
         //update gamelog
-        gameLog = gameLog.concat('\n', "Début du combat !");
+        gameLog = gameLog.concat('\n', "Début du combat ! ");
         attackList();
         break;
     }
@@ -635,7 +635,7 @@ function characterChoice(){
           populateChar($('.stadium .hero'), 'hero');
 
           //update gamelog
-          gameLog = gameLog.concat('\n', "Player 1 choose " + gameData.hero.name);
+          gameLog = gameLog.concat('\n', "Player 1 choose " + gameData.hero.name + " ");
 
           listeAttack = document.getElementsByClassName("attack-list");
 
@@ -689,7 +689,7 @@ function characterChoice(){
           populateChar($('.stadium .enemy'), 'enemy');
 
           //update gamelog
-          gameLog = gameLog.concat('\n', "Player 2 choose " + gameData.enemy.name);
+          gameLog = gameLog.concat('\n', "Player 2 choose " + gameData.enemy.name +" ");
           // pad the stadium - give them some breathing room
           $('.stadium .enemy').css({'padding':'25px 0'});
 
@@ -744,7 +744,7 @@ function attackEnemy(that, callback){
   }
 
   //update gamelog
-  gameLog = gameLog.concat('\n', gameData.hero.name + " use " + curAttack.name);
+  gameLog = gameLog.concat('\n', gameData.hero.name + " use " + curAttack.name + " ");
 
  
 
@@ -789,11 +789,11 @@ function attackEnemy(that, callback){
     //update gamelog
     
     if(gameData.enemy.hp > 0){
-      gameLog = gameLog.concat('\n', gameData.enemy.name + " have " + gameData.enemy.hp + " hp left");
+      gameLog = gameLog.concat('\n', gameData.enemy.name + " have " + gameData.enemy.hp + " hp left ");
     }
 
     else{
-      gameLog = gameLog.concat('\n', gameData.enemy.name + " have 0 hp left");
+      gameLog = gameLog.concat('\n', gameData.enemy.name + " have 0 hp left ");
     }
   
     }
@@ -802,20 +802,17 @@ function attackEnemy(that, callback){
     if(gameData.enemy.hp <= 0){
       // Enemy is dead
       //update gamelog
-      gameLog = gameLog.concat('\n', gameData.enemy.name + " is dead");
+      gameLog = gameLog.concat('\n', gameData.enemy.name + " is dead ");
 
       player2Lives --;
       if(player2Lives == 0){
         //update gamelog
-        gameLog = gameLog.concat('\n', "Player 1 win !");
+        gameLog = gameLog.concat('\n', "Player 1 win ! ");
         clearModal();
         $('.modal-in header').append('<h1>Player 1 win !</h1><span class="close">x</span>');
         $('.modal-in section').append('<p>Vous pouvez recommencer en fermant cette fenêtre ou revenir au menu principal en cliquant sur le logo PokeBattle');
         $('.modal-out').slideDown('400');
         modalControls();
-        if(fightMode == "manuelManuel/"){
-          resetGame();
-        }
         return;
       }
 
@@ -916,7 +913,7 @@ function defend(that){
   }
 
   //update gamelog
-  gameLog = gameLog.concat('\n', gameData.enemy.name + " use " + enemyAttack.name);
+  gameLog = gameLog.concat('\n', gameData.enemy.name + " use " + enemyAttack.name +" ");
   
 
   if(enemyAttack.name == "défense normale" || enemyAttack.name == "défense spéciale"){
@@ -957,11 +954,11 @@ function defend(that){
     gameData.hero.hp -= attackMultiplier('enemy', enemyAttack);
     //update gamelog
     if(gameData.hero.hp > 0){
-      gameLog = gameLog.concat('\n', gameData.hero.name + " have " + gameData.hero.hp + " hp left");
+      gameLog = gameLog.concat('\n', gameData.hero.name + " have " + gameData.hero.hp + " hp left ");
     }
 
     else{
-      gameLog = gameLog.concat('\n', gameData.hero.name + " have 0 hp left");
+      gameLog = gameLog.concat('\n', gameData.hero.name + " have 0 hp left ");
     }
     
   }
@@ -973,20 +970,18 @@ function defend(that){
     player1Lives --;
 
     //update gamelog
-    gameLog = gameLog.concat('\n', gameData.hero.name + " is dead !");
+    gameLog = gameLog.concat('\n', gameData.hero.name + " is dead ! ");
     
 
     if(player1Lives == 0){
       //update gamelog
-      gameLog = gameLog.concat('\n', "Player 2 win !");
+      gameLog = gameLog.concat('\n', "Player 2 win ! ");
       clearModal();
       $('.modal-in header').append('<h1>Player 2 win !</h1><span class="close">x</span>');
       $('.modal-in section').append('<p>Vous pouvez recommencer en fermant cette fenêtre ou revenir au menu principal en cliquant sur le logo PokeBattle');
       $('.modal-out').slideDown('400');
       modalControls();
-      if(fightMode == "manuelManuel/"){
-        resetGame();
-      }
+      
     }
 
     else{
@@ -1111,7 +1106,26 @@ function EnemyattackList(that){
 }
 
 
+function sendMatch(winner, looser, replay){
+  var currentUrl = window.location.href;
+  document.location.replace('http://127.0.0.1:8000/postFight/' + winner + '/' + looser + '/' + replay);
 
+  // const Http = new XMLHttpRequest();
+  // const url = 'http://127.0.0.1:8000/postFight/' + winner + '/' + looser + '/' + replay;
+  // Http.open("POST", url);
+  // Http.send();
+
+  //   $.ajax({
+  //     method: 'POST',
+  //     url: '/postFight/' + winner + '/' + looser + '/' + replay,
+  //     success: function(response){
+  //         console.log('ok'); 
+  //     },
+  //     error: function() {
+  //         console.log('error');
+  //     }
+// });
+}
 
 
 /////////////////////////////////////////////
@@ -1121,28 +1135,35 @@ function modalControls(){
   $('.modal-out').click(function(){
     $(this).slideUp('400');
 
-    if(fightMode == "RandomAuto/" || fightMode == "RandomManuel/" ){
-  
-      if(player1Lives == 0 || player2Lives == 0){
-        resetGame();
+    if(player1Lives == 0){
+      sendMatch('Player2', 'Player1', gameLog);
+      resetGame();
+    }
 
-      }
-      else{
-        characterChoice();
-      }
+    else if(player2Lives ==0 ){
+      sendMatch('Player1', 'Player2', gameLog);
+      resetGame();
+    }
+
+    else{
+      characterChoice();
     }
   });
   $('.modal-in .close').click(function(e){
     $('.modal-out').slideUp('400');
 
-    if(fightMode == "RandomAuto/" || fightMode == "RandomManuel/" ){
+    if(player1Lives == 0){
+      sendMatch('Player2', 'Player1', gameLog);
+      resetGame();
+    }
 
-      if(player1Lives == 0 || player2Lives == 0){
-        resetGame();
-      }
-      else{
-        characterChoice();
-      }
+    else if(player2Lives ==0 ){
+      sendMatch('Player1', 'Player2', gameLog);
+      resetGame();
+    }
+
+    else{
+      characterChoice();
     }
     
   });

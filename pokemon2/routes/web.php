@@ -2,6 +2,7 @@
 
 Route::get('/', 'App\Http\Controllers\homeController@getHomePage');
 
+Route::get('/postFight/{gagnant}/{perdant}/{replay}', 'App\Http\Controllers\statistiquesMatchsController@store');
 
 Route::get('/listePokemons', 'App\Http\Controllers\listePokemonsController@getListePokemons');
 Route::get('/statistiquesJoueurs', 'App\Http\Controllers\statistiquesJoueursController@getStatistiquesJoueurs');

@@ -12,8 +12,16 @@
         <h1> Résumé du match : </h1>
         <h2> Gagant : {{$gagnant}}</h2> 
         <h2> Perdant : {{$perdant}}</h2> 
-        <h3> Replay : <br> {{$replay}}</h3>
+        <h3> Replay : <br></h3>
+        <?php       
+            $replayTab = explode(".", $replay);  
+              
+        ?>
 
+        @foreach ($replayTab as $phrase)
+            <p> {{$phrase}} <br></p>
+                        
+        @endforeach 
         <a href='/'> Retour à l'acceuil  </a>
 
     </div>

@@ -15,20 +15,20 @@ class statistiquesMatchsController extends Controller
         return view('derniersMatchs', ['Matchs' => $Matchs]);
     }
 
-    public function store(Request $request, $gagnant, $perdant, $replay)
+    public function store($gagnant, $perdant, $replay)
     {
         // Validate the request...
  
         $match = new Matchs;
  
-        $match->gagnant = $request->gagnant;
-        $match->perdant = $request->perdant;
-        $match->replay = $request->replay;
+        $match->gagnant = $gagnant;
+        $match->perdant = $perdant;
+        $match->replay = $replay;
         $match->created_at = \Carbon\Carbon::now()->toDateTimeString();
         $match->updated_at = \Carbon\Carbon::now()->toDateTimeString();
         
         $match->save();
 
-        return view('endMatch', ['match' => $request]);
+        return view('endMatch', ['gagnant' => $gagnant, 'perdant' => $perdant, 'replay' => $replay]);
     }
 }

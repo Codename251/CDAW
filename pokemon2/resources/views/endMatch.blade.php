@@ -10,9 +10,9 @@
 
     <div class="content text-center"> 
         <h1> Résumé du match : </h1>
-        <h2> Gagant : {{$match->gagnant}}</h2> 
-        <h2> Perdant : {{$match->perdant}}</h2> 
-        <h3> Replay : <br> {{$match->replay}}</h3>
+        <h2> Gagant : {{$gagnant}}</h2> 
+        <h2> Perdant : {{$perdant}}</h2> 
+        <h3> Replay : <br> {{$replay}}</h3>
 
         <a href='/'> Retour à l'acceuil  </a>
 

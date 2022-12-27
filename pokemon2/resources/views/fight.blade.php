@@ -48,8 +48,14 @@
 @endsection
 
 @section('script')
-
-	<script src="{{asset('js/script.js')}}"></script>
-    <script src="{{asset('js/fight.js')}}"></script>
-	
+  <script type="text/javascript">
+    var maitrises = [];
+    <?php 
+      foreach(Auth::user()->energies as $energy):
+        ?> maitrises.push(<?php echo $energy->id ?>); <?php
+      endforeach; 
+    ?>;
+  </script>
+	<script src="{{asset('public/js/scripts.js')}}"></script>
+  <script src="{{asset('js/fight.js')}}"></script>
 @endsection

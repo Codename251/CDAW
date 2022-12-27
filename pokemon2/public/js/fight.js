@@ -27,10 +27,13 @@
 
 window.addEventListener('load', function () {
   fightMode = document.getElementById('fightMode').value;
+
   PokemonList = document.getElementById('Pokemons').value;
   PokemonList = PokemonList.substring(0, PokemonList.length - 1);
   PokemonList = JSON.parse(PokemonList);
+  PokemonListGuest = PokemonList;
 
+  console.log(maitrises);
   console.log(PokemonList);
   console.log(fightMode);
 
@@ -489,9 +492,11 @@ function resetGame(){
   $('.characters').removeClass('hidden');
 
   for(var i in PokemonList){
-    
-    // build the character list
-    $(".characters").append('<div class="char-container"><img src="'+PokemonList[i].path+'" alt="'+ PokemonList[i].name +'"><h2>'+PokemonList[i].name+'</h2><span class="type '+PokemonList[i].energy.name+'"></span></div>')
+    // On prend uniquement les pokemons des energies maitrisees
+    if (maitrises.includes(PokemonList[i].id_energy)){
+      // build the character list
+      $(".characters").append('<div class="char-container"><img src="'+PokemonList[i].path+'" alt="'+ PokemonList[i].name +'"><h2>'+PokemonList[i].name+'</h2><span class="type '+PokemonList[i].energy.name+'"></span></div>')
+    }
   }
   characterChoice();
 }
@@ -521,6 +526,9 @@ function characterChoice(){
       case 1:
         // step 1: automatic hero attribution
         randInt = randomNum(PokemonList.length);
+        while(!maitrises.includes(PokemonList[randInt].id_energy)){
+          randInt = randomNum(PokemonList.length);
+        };
         gameData.hero = PokemonList[randInt];
 
         // remove the character from the available list
@@ -572,7 +580,7 @@ function characterChoice(){
       case 2:
         // step 2: automatic enemy attribution
         randInt2 = randomNum(PokemonList.length);
-        while(randInt2 == randInt){
+        while(randInt2 == randInt || !maitrises.includes(PokemonList[randInt2].id_energy)){
           randInt2 = randomNum(PokemonList.length);
         }
         gameData.enemy = PokemonList[randInt2];

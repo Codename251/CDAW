@@ -16,14 +16,19 @@ class MatchSeeder extends Seeder
      */
     public function run()
     {
-   
-        DB::table('match')->insert([
-             'gagnant' => Str::random(10),
-             'perdant' => Str::random(10),
-             'replay' => Str::random(10),
-             'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
-             'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
+
+        for ($i = 1; $i <= 10; $i++) {
+
+            DB::table('match')->insert([
+                'gagnant' => Str::random(10),
+                'perdant' => Str::random(10),
+                'replay' => Str::random(10),
+                'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+                'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
             ]);
+        }
+   
+       
 
     
     }

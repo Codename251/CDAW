@@ -18,5 +18,6 @@ class DatabaseSeeder extends Seeder
         $this->call(PokemonSeeder::class);
         $this->call(MatchSeeder::class);
         $this->call(UserEnergySeeder::class);
+        $this->call(UsersTableSeeder::class);
     }
 }

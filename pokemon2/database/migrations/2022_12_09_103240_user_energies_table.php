@@ -21,9 +21,9 @@ class UserEnergiesTable extends Migration
             $table->unsignedInteger('energy_id');
             $table->foreign('energy_id')->references('id')->on('energy');
 
-           
-
             $table->primary(['user_id', 'energy_id']);
+      
+            $table->timestamps();
         });
     }
 

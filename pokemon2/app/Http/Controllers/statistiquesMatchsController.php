@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Matchs;
 use App\Models\User;
+use App\Models\UserEnergies;
 use Illuminate\Http\Request;
 
 class statistiquesMatchsController extends Controller
@@ -45,6 +46,8 @@ class statistiquesMatchsController extends Controller
             $newMaitrise = new UserEnergies;
             $newMaitrise->user_id = $Gagnant->id;
             $newMaitrise->energy_id = $levelGagnant + 1;
+            $newMaitrise->created_at = \Carbon\Carbon::now()->toDateTimeString();
+            $newMaitrise->updated_at = \Carbon\Carbon::now()->toDateTimeString();
             $newMaitrise->save();
         }
 

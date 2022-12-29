@@ -16,11 +16,15 @@ class UserEnergySeeder extends Seeder
      */
     public function run()
     {
-   
-        DB::table('userEnergies')->insert([
-             'user_id' => 1,
-             'energy_id' => 1,
+
+        for ($i = 1; $i <= 10; $i++) {
+
+            DB::table('userEnergies')->insert([
+                'user_id' => $i,
+                'energy_id' => 1,
             ]);
+
+        }
 
     
     }

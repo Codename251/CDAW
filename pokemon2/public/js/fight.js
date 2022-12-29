@@ -35,7 +35,6 @@ window.addEventListener('load', function () {
   PokemonList = PokemonList.substring(0, PokemonList.length - 1);
   PokemonList = JSON.parse(PokemonList);
   PokemonListGuest = PokemonList;
-
   console.log(playerName);
   console.log(opponentName);
 

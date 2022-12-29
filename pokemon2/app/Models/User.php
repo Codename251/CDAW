@@ -72,5 +72,8 @@ class User extends Authenticatable
         return self::with('energies')->orderBy('name')->get();
     }
 
+    public function findUserByUsername($name){
+        return $this->where('name', $name)->first();
+    }
     
 }

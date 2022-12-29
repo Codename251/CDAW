@@ -19,31 +19,34 @@ class statistiquesJoueursController extends Controller
     public function update($gagnant, $perdant)
     {
         // Validate the request...
-        $id_gagnant = User::where('name', $gagnant);
-        $id_perdant = User::where('name', $perdant);
+        $Gagnant = User::where('name', $gagnant)->first();
+        $Perdant = User::where('name', $perdant)->first();
 
-        $victoireGagnant = 1;
-        $matchsJouesGagnant = 1;
-        $scoreGagnant = 100;
-        /*if ($id_gagnant->victoire%10 == 0){
-            $id_gagnant->level = 1;
+        $victoireGagnant = 1 + $Gagnant->victoire;
+        $matchsJouesGagnant = 1 + $Gagnant->matchsJoués;
+        $scoreGagnant = 100 + $Gagnant->score;
+        $levelGagnant = $Gagnant->level;
+        if ($victoireGagnant %10 == 0){
+            $levelGagnant += 1;
+
             $newMaitrise = new UserEnergies;
-            $newMaitrise->user_id = $id_gagnant;
-            $newMaitrise->energy_id = $id_gagnant->level + 1;
+            $newMaitrise->user_id = $Gagnant->id;
+            $newMaitrise->energy_id = $levelGagnant + 1;
             $newMaitrise->save();
-        }*/
+        }
 
-        $matchsJouesPerdant = 1;
-        $scorePerdant = 50;
-        /*if ($id_perdant->score > 50){
-            $id_perdant->score = 50;
-        }*/
+        $matchsJouesPerdant = 1 + $Perdant->matchsJoués;
+        $scorePerdant = $Perdant->score;
+        if ($scorePerdant > 50){
+            $scorePerdant -= 50;
+        }
 
         
         User::where('name', $gagnant)->update([
             'victoire' => $victoireGagnant,
             'matchsJoués'=>  $matchsJouesGagnant,
-            'score' => $scoreGagnant
+            'score' => $scoreGagnant,
+            'level' => $levelGagnant
         ]);
         
         User::where('name', $perdant)->update([

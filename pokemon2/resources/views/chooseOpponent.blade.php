@@ -1,26 +1,37 @@
 @extends('template')
 
 @section('style')
+    <link rel="stylesheet" href="//cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" >
+    <link href="{{asset('css/content.css')}}" rel="stylesheet" />
     <link href="css/content.css" rel="stylesheet" />
     <link href="css/app.css" rel="stylesheet" />
 @endsection
 
 @section('content')
-    <div class="content items-center" style="margin-top: 10em">
-        
-
-            <div >
-                <x-jet-label class="text-center h4" for="opponentPseudo" value="{{ __('Enter your Opponent pseudo') }}" />
-                <input style="display: block; margin-left: auto; margin-right: auto" id="opponentPseudo" class="block text-center mt-1" type="opponentPseudo" name="opponentPseudo" :value="old('opponentPseudo')" required autofocus />
-            </div>
+    <div class="content">
+        <h1>Choisissez votre adversaire :</h1>
+        <table id="myTable"  style="width:100%">
+            <thead>
+                <tr>
+                    <th>Pseudo</th>
+                    <th>Choix</th>
+                
+                </tr>
+            </thead>
 
             
-            <div class="flex items-center mt-4">
-                <button onclick="getValue('{{$fightMode}}')" class="ml-4" style="display: block; margin-left: auto; margin-right: auto">
-                    {{ __('Next') }}
-                </button>
-            </div>
-   
+            <tbody>
+                <tr>
+                    
+                    @foreach ($Joueurs as $joueur)
+                        <?php if(Auth::user()->name != $joueur->name){ ?>
+                        <td> {{$joueur->name}}</td>
+                        <td> <button class="myBtn" onclick ="getValue('{{$fightMode}}', '{{$joueur->name}}')"> 
+                                choisir </button></td></tr>
+                        <?php } ?>
+                    @endforeach 
+            </tbody>
+        </table>
     </div>
 
     
@@ -35,11 +46,9 @@
     </script>
 
     <script>
-        function getValue(fightMode) {
-                 // Sélectionner l'élément input et récupérer sa valeur
-                var input = document.getElementById("opponentPseudo").value;
-                // Afficher la valeur
-                document.location.replace('http://127.0.0.1:8000/fight/' + fightMode + '/' + input);
+        function getValue(fightMode, opponentName) {
+            
+                document.location.replace('http://127.0.0.1:8000/fight/' + fightMode + '/' + opponentName);
 
         }
     </script>

@@ -17,7 +17,7 @@ class MatchSeeder extends Seeder
     public function run()
     {
 
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 5; $i++) {
 
             DB::table('match')->insert([
                 'gagnant' => Str::random(10),

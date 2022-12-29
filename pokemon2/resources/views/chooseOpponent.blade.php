@@ -7,21 +7,20 @@
 
 @section('content')
     <div class="content items-center" style="margin-top: 10em">
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
+        
 
             <div >
                 <x-jet-label class="text-center h4" for="opponentPseudo" value="{{ __('Enter your Opponent pseudo') }}" />
-                <x-jet-input style="display: block; margin-left: auto; margin-right: auto" id="opponentPseudo" class="block text-center mt-1" type="opponentPseudo" name="opponentPseudo" :value="old('opponentPseudo')" required autofocus />
+                <input style="display: block; margin-left: auto; margin-right: auto" id="opponentPseudo" class="block text-center mt-1" type="opponentPseudo" name="opponentPseudo" :value="old('opponentPseudo')" required autofocus />
             </div>
 
             
             <div class="flex items-center mt-4">
-                <x-jet-button class="ml-4" style="display: block; margin-left: auto; margin-right: auto">
+                <button onclick="getValue('{{$fightMode}}')" class="ml-4" style="display: block; margin-left: auto; margin-right: auto">
                     {{ __('Next') }}
-                </x-jet-button>
+                </button>
             </div>
-        </form>
+   
     </div>
 
     
@@ -33,5 +32,15 @@
         $(document).ready( function () {
             $('#myTable').DataTable();
         });
+    </script>
+
+    <script>
+        function getValue(fightMode) {
+                 // Sélectionner l'élément input et récupérer sa valeur
+                var input = document.getElementById("opponentPseudo").value;
+                // Afficher la valeur
+                document.location.replace('http://127.0.0.1:8000/fight/' + fightMode + '/' + input);
+
+        }
     </script>
 @endsection

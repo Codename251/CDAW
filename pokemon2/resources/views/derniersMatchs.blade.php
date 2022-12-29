@@ -44,7 +44,7 @@
                                 <!-- Modal content -->
                                 <div class="modal-content">
 
-                                    <button class="closeButton" onclick ="closeModal({{$counter}})"> x </button>
+                                    <button class="closeButton" onclick ="closeModal()"> x </button>
                                     
                                     <p>@foreach ($replayTab as $phrase)
                                         <p> {{$phrase}} <br></p>
@@ -82,8 +82,9 @@
             index = counter;
         }
 
-        function closeModal(counter) {
-            modal[counter].style.display = "none";
+        function closeModal() {
+            console.log("close croix");
+            modal[index].style.display = "none";
         }
 
         

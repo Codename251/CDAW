@@ -1115,7 +1115,6 @@ function EnemyattackList(that){
 
 
 function sendMatch(winner, looser, replay){
-  console.log("send match !!!!!!!!!!!!!!");
   var currentUrl = window.location.href;
   document.location.replace('http://127.0.0.1:8000/postFight/' + winner + '/' + looser + '/' + replay);
 

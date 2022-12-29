@@ -9,6 +9,7 @@
 
 	<input type=hidden id=fightMode value=<?php echo $fightMode; ?>/>
   <input type=hidden id=opponantName value=<?php echo $opposantName; ?>/>
+  <input type=hidden id=playerName value=<?php echo Auth::user()->name; ?>/>
   <input type=hidden id=Pokemons value=<?php echo json_encode($Pokemons); ?>/>
     <div class="content">
     <header>

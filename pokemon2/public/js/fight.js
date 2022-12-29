@@ -27,15 +27,17 @@
 
 window.addEventListener('load', function () {
   fightMode = document.getElementById('fightMode').value;
-
+  opponentName = document.getElementById('opponantName').value;
+  opponentName = opponentName.substring(0, opponentName.length - 1);
+  playerName = document.getElementById('playerName').value;
+  playerName = playerName.substring(0, playerName.length - 1);
   PokemonList = document.getElementById('Pokemons').value;
   PokemonList = PokemonList.substring(0, PokemonList.length - 1);
   PokemonList = JSON.parse(PokemonList);
   PokemonListGuest = PokemonList;
 
-  console.log(maitrises);
-  console.log(PokemonList);
-  console.log(fightMode);
+  console.log(playerName);
+  console.log(opponentName);
 
 
 var typeSprite = '',
@@ -485,7 +487,7 @@ function resetGame(){
   $('.enemy-attack-list li').unbind('click');
   $('.enemy-attack-list').empty();
   $('.stadium .enemy').css({'padding':'0'});
-  $('.instructions p').text('Player 1 Choose your Pokemon : restants ' + player1Lives);
+  $('.instructions p').text(playerName +' choisissez votre Pokemon : restants ' + player1Lives);
 
   // empty characters
   $('.characters').empty();
@@ -537,7 +539,7 @@ function characterChoice(){
         populateChar($('.stadium .hero'), 'hero');
 
         //update gamelog
-        gameLog = gameLog.concat('\n', "Player 1 choose " + gameData.hero.name + " .");
+        gameLog = gameLog.concat('\n', playerName +" choose " + gameData.hero.name + " .");
 
         listeAttack = document.getElementsByClassName("attack-list");
 
@@ -555,18 +557,18 @@ function characterChoice(){
         $('.enemy-attack-list').addClass('disabled');
 
         // update instructions
-        $('.instructions p').text('Player 2 Choose your Pokemon : restant ' + player2Lives);
+        $('.instructions p').text(opponentName + ' choisissez votre Pokemon : restant ' + player2Lives);
         // set health bar value
         $('.stadium .hero progress').val(gameData.hero.hp);
 
         // move on to choosing an enemy
         if(isObjEmpty(gameData.enemy)){
-          console.log("go to step 2");
+          
           gameData.step = 2;
           characterChoice();
         }
         else{
-          console.log("go to step 3");
+          
           gameData.step = 3;
           // hide the hero list
           $('.characters').children().slideUp('500', function(){
@@ -591,14 +593,14 @@ function characterChoice(){
         populateChar($('.stadium .enemy'), 'enemy');
 
         //update gamelog
-        gameLog = gameLog.concat('\n', "Player 2 choose " + gameData.enemy.name +" .");
+        gameLog = gameLog.concat('\n', opponentName + " chosit " + gameData.enemy.name +" .");
         // pad the stadium - give them some breathing room
         $('.stadium .enemy').css({'padding':'25px 0'});
 
       
         
         // update instructions
-        $('.instructions p').text('Fight!!!');
+        $('.instructions p').text('Combattez !!!');
 
         // hide the hero list
         $('.characters').children().slideUp('500', function(){
@@ -643,7 +645,7 @@ function characterChoice(){
           populateChar($('.stadium .hero'), 'hero');
 
           //update gamelog
-          gameLog = gameLog.concat('\n', "Player 1 choose " + gameData.hero.name + " .");
+          gameLog = gameLog.concat('\n', playerName +" choisit " + gameData.hero.name + " .");
 
           listeAttack = document.getElementsByClassName("attack-list");
 
@@ -661,7 +663,7 @@ function characterChoice(){
           $('.enemy-attack-list').addClass('disabled');
 
           // update instructions
-          $('.instructions p').text('Player 2 Choose your Pokemon : restant ' + player2Lives);
+          $('.instructions p').text(opponentName + ' choisissez votre Pokemon : restant ' + player2Lives);
           // set health bar value
           $('.stadium .hero progress').val(gameData.hero.hp);
 
@@ -697,14 +699,14 @@ function characterChoice(){
           populateChar($('.stadium .enemy'), 'enemy');
 
           //update gamelog
-          gameLog = gameLog.concat('\n', "Player 2 choose " + gameData.enemy.name +" .");
+          gameLog = gameLog.concat('\n', opponentName +" choisit " + gameData.enemy.name +" .");
           // pad the stadium - give them some breathing room
           $('.stadium .enemy').css({'padding':'25px 0'});
 
         
           
           // update instructions
-          $('.instructions p').text('Fight!!!');
+          $('.instructions p').text('Combattez !!!');
 
           // hide the hero list
           $('.characters').children().slideUp('500', function(){
@@ -732,6 +734,8 @@ function characterChoice(){
 // HERO ATTACK
 /////////////////////////////////////////////
 function attackEnemy(that, callback){
+
+  $('.instructions p').text("C'est au tour de " + opponentName);
   // attack the enemy!!!
   if(fightMode == "RandomAuto/"){
       // random attack
@@ -752,7 +756,7 @@ function attackEnemy(that, callback){
   }
 
   //update gamelog
-  gameLog = gameLog.concat('\n', gameData.hero.name + " use " + curAttack.name + " .");
+  gameLog = gameLog.concat('\n', gameData.hero.name + " utilise " + curAttack.name + " .");
 
  
 
@@ -797,11 +801,11 @@ function attackEnemy(that, callback){
     //update gamelog
     
     if(gameData.enemy.hp > 0){
-      gameLog = gameLog.concat('\n', gameData.enemy.name + " have " + gameData.enemy.hp + " hp left .");
+      gameLog = gameLog.concat('\n', gameData.enemy.name + " a " + gameData.enemy.hp + " PV restants.");
     }
 
     else{
-      gameLog = gameLog.concat('\n', gameData.enemy.name + " have 0 hp left .");
+      gameLog = gameLog.concat('\n', gameData.enemy.name + " a 0 PV restant .");
     }
   
     }
@@ -810,14 +814,14 @@ function attackEnemy(that, callback){
     if(gameData.enemy.hp <= 0){
       // Enemy is dead
       //update gamelog
-      gameLog = gameLog.concat('\n', gameData.enemy.name + " is dead .");
+      gameLog = gameLog.concat('\n', gameData.enemy.name + " est mort .");
 
       player2Lives --;
       if(player2Lives == 0){
         //update gamelog
-        gameLog = gameLog.concat('\n', "Player 1 win !  .");
+        gameLog = gameLog.concat('\n', playerName + " a gagné !  .");
         clearModal();
-        $('.modal-in header').append('<h1>Player 1 win !</h1><span class="close">x</span>');
+        $('.modal-in header').append('<h1>' + playerName +' a gagné !</h1><span class="close">x</span>');
         $('.modal-in section').append('<p>Fermez cette fenêtre pour aller vers le résumé de combat ou cliquez sur le logo PokeBattle pour revenir au menu principal');
         $('.modal-out').slideDown('400');
         modalControls();
@@ -826,7 +830,7 @@ function attackEnemy(that, callback){
 
       else{
         clearModal();
-        $('.modal-in header').append('<h1>Player 2 Pokemon is dead !</h1><span class="close">x</span>');
+        $('.modal-in header').append('<h1>Le pokemon de ' +opponentName+' est mort !</h1><span class="close">x</span>');
         $('.modal-in section').append('<p>Il lui reste ' + player2Lives + ' Pokemons');
         $('.modal-out').slideDown('400');
         modalControls();
@@ -900,6 +904,8 @@ this.setInterval(function(){
 /////////////////////////////////////////////
 function defend(that){
 
+  $('.instructions p').text("C'est au tour de " + playerName);
+
   if(fightMode == "RandomManuel/" || fightMode == "manuelManuel/"){
     // name of your attack
     EnemyAttackName = that.children('.enemy-attack-name').children('strong').text().toLowerCase();
@@ -921,7 +927,7 @@ function defend(that){
   }
 
   //update gamelog
-  gameLog = gameLog.concat('\n', gameData.enemy.name + " use " + enemyAttack.name +" .");
+  gameLog = gameLog.concat('\n', gameData.enemy.name + " utilise " + enemyAttack.name +" .");
   
 
   if(enemyAttack.name == "défense normale" || enemyAttack.name == "défense spéciale"){
@@ -962,11 +968,11 @@ function defend(that){
     gameData.hero.hp -= attackMultiplier('enemy', enemyAttack);
     //update gamelog
     if(gameData.hero.hp > 0){
-      gameLog = gameLog.concat('\n', gameData.hero.name + " have " + gameData.hero.hp + " hp left .");
+      gameLog = gameLog.concat('\n', gameData.hero.name + " a " + gameData.hero.hp + " PV restants .");
     }
 
     else{
-      gameLog = gameLog.concat('\n', gameData.hero.name + " have 0 hp left .");
+      gameLog = gameLog.concat('\n', gameData.hero.name + " a 0 PV restant .");
     }
     
   }
@@ -978,14 +984,14 @@ function defend(that){
     player1Lives --;
 
     //update gamelog
-    gameLog = gameLog.concat('\n', gameData.hero.name + " is dead ! .");
+    gameLog = gameLog.concat('\n', gameData.hero.name + " est mort ! .");
     
 
     if(player1Lives == 0){
       //update gamelog
-      gameLog = gameLog.concat('\n', "Player 2 win ! .");
+      gameLog = gameLog.concat('\n', opponentName + " a gagné ! .");
       clearModal();
-      $('.modal-in header').append('<h1>Player 2 win !</h1><span class="close">x</span>');
+      $('.modal-in header').append('<h1>'+opponentName + ' a gagné !</h1><span class="close">x</span>');
       $('.modal-in section').append('<p>Fermez cette fenêtre pour aller vers le résumé de combat ou cliquez sur le logo PokeBattle pour revenir au menu principal');
       $('.modal-out').slideDown('400');
       modalControls();
@@ -994,7 +1000,7 @@ function defend(that){
 
     else{
       clearModal();
-      $('.modal-in header').append('<h1>Player 1 pokemon is dead !</h1><span class="close">x</span>');
+      $('.modal-in header').append('<h1>Le pokemon de '+playerName+  ' est mort !</h1><span class="close">x</span>');
       $('.modal-in section').append('<p>Il lui reste ' + player1Lives + ' Pokemons');
       $('.modal-out').slideDown('400');
       modalControls()
@@ -1144,12 +1150,12 @@ function modalControls(){
     $(this).slideUp('400');
 
     if(player1Lives == 0){
-      sendMatch('Player2', 'Player1', gameLog);
+      sendMatch(opponentName, playerName, gameLog);
       resetGame();
     }
 
     else if(player2Lives ==0 ){
-      sendMatch('Player1', 'Player2', gameLog);
+      sendMatch(playerName, opponentName, gameLog);
       resetGame();
     }
 
@@ -1161,12 +1167,12 @@ function modalControls(){
     $('.modal-out').slideUp('400');
 
     if(player1Lives == 0){
-      sendMatch('Player2', 'Player1', gameLog);
+      sendMatch(opponentName, playerName, gameLog);
       resetGame();
     }
 
     else if(player2Lives ==0 ){
-      sendMatch('Player1', 'Player2', gameLog);
+      sendMatch(playerName, opponentName, gameLog);
       resetGame();
     }
 

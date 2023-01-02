@@ -10,7 +10,7 @@
 
     <div class="content text-center"> 
         <h1> Résumé du match : </h1>
-        <h2> Gagant : {{$gagnant}}</h2> 
+        <h2> Gagnant : {{$gagnant}}</h2> 
         <h2> Perdant : {{$perdant}}</h2> 
         <h3> Replay : <br></h3>
         <?php       

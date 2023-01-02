@@ -11,3 +11,7 @@ Pour initialiser le projet :
 -php artisan db:seed
 -php artisan key:generate
 -php artisan serve
+
+
+Lien vers la vidéo de présentation :
+https://youtu.be/u3iKjYlCjqs
